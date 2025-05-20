@@ -1,0 +1,237 @@
+{
+	"name": "Chat with Multiple Experts using the InfraNodus Knowledge Graphs",
+	"nodes": [
+		{
+			"parameters": {
+				"model": "gpt-4o",
+				"options": {}
+			},
+			"id": "d924643f-dfe1-4359-a0b6-bbb9fa85aadc",
+			"name": "OpenAI Model",
+			"type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+			"typeVersion": 1,
+			"position": [640, 300],
+			"credentials": {
+				"openAiApi": {
+					"id": "cfyf2SAH7pHQjAc4",
+					"name": "OpenAi account"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"options": {
+					"systemMessage": "Always use either EightOS or Polysingularity tool before sending a response to the model. You have to use at least one of them, the one that think is more suitable. Or both if both can provide some help. \nIf you used both tools and received responses from both of them, combine them in one response making sure you merge both perspectives."
+				}
+			},
+			"id": "2bb6e668-b2b7-4eac-9d76-f8afefffa48f",
+			"name": "Agent",
+			"type": "@n8n/n8n-nodes-langchain.agent",
+			"typeVersion": 1.7,
+			"position": [800, 20]
+		},
+		{
+			"parameters": {
+				"toolDescription": "[Describe your tool here, e.g.: Make a request to EightOS specialist who is well-versed in the questions of variability, movement, physical development, adaptivity, resilience.]",
+				"method": "POST",
+				"url": "https://infranodus.com/api/v1/graphAndAdvice?doNotSave=true&addStats=true&optimize=develop&includeStatements=false&includeGraphSummary=true&includeGraph=false",
+				"sendHeaders": true,
+				"parametersHeaders": {
+					"values": [
+						{
+							"name": "Authorization",
+							"valueProvider": "fieldValue",
+							"value": "Bearer your_infranodus_api_key_here"
+						}
+					]
+				},
+				"sendBody": true,
+				"parametersBody": {
+					"values": [
+						{
+							"name": "name",
+							"valueProvider": "fieldValue",
+							"value": "your_infranodus_graph_name_1"
+						},
+						{
+							"name": "prompt"
+						},
+						{
+							"name": "requestMode",
+							"valueProvider": "fieldValue",
+							"value": "response"
+						}
+					]
+				}
+			},
+			"type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+			"typeVersion": 1.1,
+			"position": [1060, 300],
+			"id": "7010f1a5-2547-48cd-9113-40e0ad46d7d9",
+			"name": "EightOS Expert"
+		},
+		{
+			"parameters": {
+				"toolDescription": "You are an expert in Polysingularity. You provide responses in the field of multiplicity, networks, seeing multiple points etc.",
+				"method": "POST",
+				"url": "https://infranodus.com/api/v1/graphAndAdvice?doNotSave=true&addStats=true&optimize=develop&includeStatements=false&includeGraphSummary=true&includeGraph=false",
+				"sendHeaders": true,
+				"parametersHeaders": {
+					"values": [
+						{
+							"name": "Authorization",
+							"valueProvider": "fieldValue",
+							"value": "Bearer your_infranodus_api_key_here"
+						}
+					]
+				},
+				"sendBody": true,
+				"parametersBody": {
+					"values": [
+						{
+							"name": "name",
+							"valueProvider": "fieldValue",
+							"value": "your_infranodus_graph_name_2"
+						},
+						{
+							"name": "prompt"
+						},
+						{
+							"name": "requestMode",
+							"valueProvider": "fieldValue",
+							"value": "response"
+						}
+					]
+				}
+			},
+			"type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+			"typeVersion": 1.1,
+			"position": [1280, 280],
+			"id": "087fbee8-04ec-4b86-8ae5-31f22a9709cd",
+			"name": "Polysingularity Expert"
+		},
+		{
+			"parameters": {},
+			"type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+			"typeVersion": 1.3,
+			"position": [840, 300],
+			"id": "fa988867-6462-49e6-8066-4930bbfece14",
+			"name": "Simple Memory"
+		},
+		{
+			"parameters": {
+				"public": true,
+				"initialMessages": "Get an advice based on EightOS and Polysingularity frameworks. Ask your question and I will provide a response based on InfraNodus GraphRAG analysis of those discourses.",
+				"options": {
+					"loadPreviousSession": "manually",
+					"subtitle": "Let's find a solution to any issue you have",
+					"title": "EightOS Polysingularity Consilium"
+				}
+			},
+			"type": "@n8n/n8n-nodes-langchain.chatTrigger",
+			"typeVersion": 1.1,
+			"position": [440, 20],
+			"id": "73889201-0a8d-4c72-bc5d-f7a299ccb28d",
+			"name": "When chat message received",
+			"webhookId": "8925672f-55c8-4c09-b0d9-ba8e87af8807"
+		}
+	],
+	"pinData": {},
+	"connections": {
+		"OpenAI Model": {
+			"ai_languageModel": [
+				[
+					{
+						"node": "Agent",
+						"type": "ai_languageModel",
+						"index": 0
+					}
+				]
+			]
+		},
+		"EightOS Expert": {
+			"ai_tool": [
+				[
+					{
+						"node": "Agent",
+						"type": "ai_tool",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Polysingularity Expert": {
+			"ai_tool": [
+				[
+					{
+						"node": "Agent",
+						"type": "ai_tool",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Agent": {
+			"main": [[]]
+		},
+		"Simple Memory": {
+			"ai_memory": [
+				[
+					{
+						"node": "Agent",
+						"type": "ai_memory",
+						"index": 0
+					}
+				]
+			]
+		},
+		"When chat message received": {
+			"main": [
+				[
+					{
+						"node": "Agent",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		}
+	},
+	"active": true,
+	"settings": {
+		"executionOrder": "v1"
+	},
+	"versionId": "aa379dbe-ce8f-458b-bcb4-c108d39aa250",
+	"meta": {
+		"templateId": "self-building-ai-agent",
+		"templateCredsSetupCompleted": true,
+		"instanceId": "2a26454b0172ffcb8d70ba77c235b1209f92cd71bf06c79ba609c7173b416d68"
+	},
+	"id": "IdH3G0afiSXfzA5H",
+	"tags": [
+		{
+			"createdAt": "2025-05-20T14:53:20.662Z",
+			"updatedAt": "2025-05-20T14:53:20.662Z",
+			"id": "IzYV3Gv55x1h73cK",
+			"name": "Ideation"
+		},
+		{
+			"createdAt": "2025-05-20T14:53:23.085Z",
+			"updatedAt": "2025-05-20T14:53:23.085Z",
+			"id": "aECLdyckoPZ29skg",
+			"name": "Writing"
+		},
+		{
+			"createdAt": "2025-05-20T14:53:17.515Z",
+			"updatedAt": "2025-05-20T14:53:17.515Z",
+			"id": "ciIq4giMNXaJiyiQ",
+			"name": "Thinking Tools"
+		},
+		{
+			"createdAt": "2025-05-20T13:16:15.636Z",
+			"updatedAt": "2025-05-20T13:16:15.636Z",
+			"id": "sJk9cUvmMU8FkJXv",
+			"name": "AI"
+		}
+	]
+}
