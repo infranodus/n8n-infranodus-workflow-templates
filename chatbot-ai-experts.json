@@ -1,20 +1,20 @@
 {
-	"name": "Chat with Multiple Experts using the InfraNodus Knowledge Graphs",
+	"name": "AI Chatbot Agent with a Panel of Experts using InfraNodus Graph RAG for Knowledge",
 	"nodes": [
 		{
 			"parameters": {
 				"model": "gpt-4o",
 				"options": {}
 			},
-			"id": "d924643f-dfe1-4359-a0b6-bbb9fa85aadc",
+			"id": "14445678-43be-48a4-b7c2-f0e55be1b467",
 			"name": "OpenAI Model",
 			"type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
 			"typeVersion": 1,
-			"position": [640, 300],
+			"position": [200, 280],
 			"credentials": {
 				"openAiApi": {
-					"id": "cfyf2SAH7pHQjAc4",
-					"name": "OpenAi account"
+					"id": "07wFa8Wa4mMRCHAj",
+					"name": "OpenAi account 2"
 				}
 			}
 		},
@@ -24,15 +24,15 @@
 					"systemMessage": "Always use either EightOS or Polysingularity tool before sending a response to the model. You have to use at least one of them, the one that think is more suitable. Or both if both can provide some help. \nIf you used both tools and received responses from both of them, combine them in one response making sure you merge both perspectives."
 				}
 			},
-			"id": "2bb6e668-b2b7-4eac-9d76-f8afefffa48f",
+			"id": "88a0a41e-5d93-4aa1-b526-db0cc4819d08",
 			"name": "Agent",
 			"type": "@n8n/n8n-nodes-langchain.agent",
 			"typeVersion": 1.7,
-			"position": [800, 20]
+			"position": [440, 0]
 		},
 		{
 			"parameters": {
-				"toolDescription": "[Describe your tool here, e.g.: Make a request to EightOS specialist who is well-versed in the questions of variability, movement, physical development, adaptivity, resilience.]",
+				"toolDescription": "Make a request to EightOS specialist who is well-versed in the questions of variability, movement, physical development, adaptivity, resilience.",
 				"method": "POST",
 				"url": "https://infranodus.com/api/v1/graphAndAdvice?doNotSave=true&addStats=true&optimize=develop&includeStatements=false&includeGraphSummary=true&includeGraph=false",
 				"sendHeaders": true,
@@ -51,7 +51,7 @@
 						{
 							"name": "name",
 							"valueProvider": "fieldValue",
-							"value": "your_infranodus_graph_name_1"
+							"value": "panarchy_eightos"
 						},
 						{
 							"name": "prompt"
@@ -66,8 +66,8 @@
 			},
 			"type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
 			"typeVersion": 1.1,
-			"position": [1060, 300],
-			"id": "7010f1a5-2547-48cd-9113-40e0ad46d7d9",
+			"position": [680, 280],
+			"id": "420fed82-c2d3-47d9-b05f-ab37578dd1a2",
 			"name": "EightOS Expert"
 		},
 		{
@@ -91,7 +91,7 @@
 						{
 							"name": "name",
 							"valueProvider": "fieldValue",
-							"value": "your_infranodus_graph_name_2"
+							"value": "polysingularity_overview"
 						},
 						{
 							"name": "prompt"
@@ -106,16 +106,16 @@
 			},
 			"type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
 			"typeVersion": 1.1,
-			"position": [1280, 280],
-			"id": "087fbee8-04ec-4b86-8ae5-31f22a9709cd",
+			"position": [900, 280],
+			"id": "30831dfc-48cc-4315-b611-a6c195e9ad17",
 			"name": "Polysingularity Expert"
 		},
 		{
 			"parameters": {},
 			"type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
 			"typeVersion": 1.3,
-			"position": [840, 300],
-			"id": "fa988867-6462-49e6-8066-4930bbfece14",
+			"position": [400, 280],
+			"id": "41bf047a-eba0-4a7c-ac46-3a5da9826180",
 			"name": "Simple Memory"
 		},
 		{
@@ -130,10 +130,107 @@
 			},
 			"type": "@n8n/n8n-nodes-langchain.chatTrigger",
 			"typeVersion": 1.1,
-			"position": [440, 20],
-			"id": "73889201-0a8d-4c72-bc5d-f7a299ccb28d",
+			"position": [0, 0],
+			"id": "9fb76eda-0a98-4260-a6dd-d1a24d721bfa",
 			"name": "When chat message received",
 			"webhookId": "8925672f-55c8-4c09-b0d9-ba8e87af8807"
+		},
+		{
+			"parameters": {
+				"content": "## AI Chatbot Agent with Experts\n\n### Uses the InfraNodus knowledge graphs and its Graph RAG to retrieve relevant information.\n\nUse your [InfraNodus graph](https://infranodus.com) as the knowledge base for your AI chatbot. \n\nUpload any data to InfraNodus, generate separate knowledge graphs, then connect them as tools to the agent, so it can decide which \"expert\" to use. InfraNodus' Graph RAG will provide high-quality responses that will augment the chatbot's answers.\n\nVideo demo: [https://www.youtube.com/watch?v=kS0QTUvcH6E](https://www.youtube.com/watch?v=kS0QTUvcH6E)\n\nDetailed description: [Nodus Labs support portal](https://support.noduslabs.com/hc/en-us/articles/20174217658396-Using-InfraNodus-Knowledge-Graphs-as-Experts-for-AI-Chatbot-Agents-in-n8n)\n\nInfraNodus API key can be obtained at [InfraNodus.Com](https://infranodus.com/use-case/ai-knowledge-graphs)",
+				"height": 400,
+				"width": 460,
+				"color": 6
+			},
+			"type": "n8n-nodes-base.stickyNote",
+			"position": [-120, -440],
+			"typeVersion": 1,
+			"id": "cedf6471-af63-4ffe-aca3-f8f81530fcc6",
+			"name": "Sticky Note"
+		},
+		{
+			"parameters": {
+				"content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n## Expert #1\n\nAdd your InfraNodus graph here via the HTTP node using its name in the `body.name` field.\n\nDescribe what the expert does in the Description of the tool. You can use auto-generated Graph RAG summary from InfraNodus > Graph > Project Notes",
+				"height": 540,
+				"width": 200
+			},
+			"type": "n8n-nodes-base.stickyNote",
+			"position": [620, 260],
+			"typeVersion": 1,
+			"id": "d6c1a430-1900-4c32-a799-a29798b45c7e",
+			"name": "Sticky Note1"
+		},
+		{
+			"parameters": {
+				"content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n## Expert #2\n\nAdd your InfraNodus graph here via the HTTP node using its name in the `body.name` field.\n\nDescribe what the expert does in the Description of the tool. You can use auto-generated Graph RAG summary from InfraNodus > Graph > Project Notes",
+				"height": 540,
+				"width": 200
+			},
+			"type": "n8n-nodes-base.stickyNote",
+			"position": [840, 260],
+			"typeVersion": 1,
+			"id": "dfbcdf98-a86b-4cd9-b3b2-98a5b94f3d13",
+			"name": "Sticky Note2"
+		},
+		{
+			"parameters": {
+				"content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n## Expert #3\n\nYou can add more experts here. Just make to give them descriptive names, so the agent knows which one to connect to when it has a question. ",
+				"height": 540,
+				"width": 200
+			},
+			"type": "n8n-nodes-base.stickyNote",
+			"position": [1060, 260],
+			"typeVersion": 1,
+			"id": "bcd44abe-7719-4b67-b8d7-d9887ca08a02",
+			"name": "Sticky Note3"
+		},
+		{
+			"parameters": {
+				"content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n## Chat Memory\n\nWe use the Simple Memory node to track the conversation's context so that the user can refer to previous messages as they converse with the model.",
+				"height": 540,
+				"width": 200
+			},
+			"type": "n8n-nodes-base.stickyNote",
+			"position": [340, 260],
+			"typeVersion": 1,
+			"id": "c2736799-4921-438c-8b73-b935b1b7df6f",
+			"name": "Sticky Note4"
+		},
+		{
+			"parameters": {
+				"content": "## 2. AI Agent\n\n### Chooses which tool (expert) to use, depending on the user's message. \n\nMake sure you describe the tools available well both in the Agent's System Prompt and in the tools' descriptions. ",
+				"height": 360,
+				"width": 460
+			},
+			"type": "n8n-nodes-base.stickyNote",
+			"position": [400, -220],
+			"typeVersion": 1,
+			"id": "f20c53f4-4498-4585-8c6b-d7c90bd0619e",
+			"name": "Sticky Note5"
+		},
+		{
+			"parameters": {
+				"content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n## 1. Chat Trigger\n\nYou can use this chat inside n8n or you can make it available via a public URL and then use that link or embed it to any website.",
+				"height": 540,
+				"width": 220
+			},
+			"type": "n8n-nodes-base.stickyNote",
+			"position": [-60, -20],
+			"typeVersion": 1,
+			"id": "c7d27990-45b2-457d-be9c-c6171dda2da5",
+			"name": "Sticky Note6"
+		},
+		{
+			"parameters": {
+				"content": "## 3. Chat Response\n\n### When the answer is produced, it's sent back to the user. \n\nYou can also choose to do something else to the response — e.g. save it to a Google sheet or Airtable to keep logs of the conversation. ",
+				"height": 360,
+				"width": 220
+			},
+			"type": "n8n-nodes-base.stickyNote",
+			"position": [900, -220],
+			"typeVersion": 1,
+			"id": "0273eee6-0eca-4360-ab6c-224eedf221ec",
+			"name": "Sticky Note7"
 		}
 	],
 	"pinData": {},
@@ -171,9 +268,6 @@
 				]
 			]
 		},
-		"Agent": {
-			"main": [[]]
-		},
 		"Simple Memory": {
 			"ai_memory": [
 				[
@@ -197,18 +291,29 @@
 			]
 		}
 	},
-	"active": true,
+	"active": false,
 	"settings": {
 		"executionOrder": "v1"
 	},
-	"versionId": "aa379dbe-ce8f-458b-bcb4-c108d39aa250",
+	"versionId": "894b3877-61b8-4ec9-8e1d-b56d9a23c38f",
 	"meta": {
-		"templateId": "self-building-ai-agent",
 		"templateCredsSetupCompleted": true,
 		"instanceId": "2a26454b0172ffcb8d70ba77c235b1209f92cd71bf06c79ba609c7173b416d68"
 	},
-	"id": "IdH3G0afiSXfzA5H",
+	"id": "bHZEpS3GDpUNmmRD",
 	"tags": [
+		{
+			"createdAt": "2025-05-21T17:06:32.355Z",
+			"updatedAt": "2025-05-21T17:06:32.355Z",
+			"id": "66wgFoDi9Xjl74M3",
+			"name": "Support"
+		},
+		{
+			"createdAt": "2025-05-21T17:06:29.704Z",
+			"updatedAt": "2025-05-21T17:06:29.704Z",
+			"id": "9QurS5Kb1CkCYrnG",
+			"name": "Product"
+		},
 		{
 			"createdAt": "2025-05-20T14:53:20.662Z",
 			"updatedAt": "2025-05-20T14:53:20.662Z",
@@ -226,6 +331,12 @@
 			"updatedAt": "2025-05-20T14:53:17.515Z",
 			"id": "ciIq4giMNXaJiyiQ",
 			"name": "Thinking Tools"
+		},
+		{
+			"createdAt": "2025-05-21T17:06:34.674Z",
+			"updatedAt": "2025-05-21T17:06:34.674Z",
+			"id": "hCzs9EJfBuD0RxuX",
+			"name": "Other"
 		},
 		{
 			"createdAt": "2025-05-20T13:16:15.636Z",
