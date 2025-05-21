@@ -1,0 +1,276 @@
+{
+	"name": "Telegram <-> InfraNodus AI Knowledge Graph Expert Panel Chat",
+	"nodes": [
+		{
+			"parameters": {
+				"model": "gpt-4o",
+				"options": {}
+			},
+			"id": "11ece303-43c2-45e0-882b-ac9230c2a3f3",
+			"name": "OpenAI Model",
+			"type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+			"typeVersion": 1,
+			"position": [640, 300],
+			"credentials": {
+				"openAiApi": {
+					"id": "cfyf2SAH7pHQjAc4",
+					"name": "OpenAi account"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"promptType": "define",
+				"text": "={{ $('Telegram Trigger').item.json.message.text }}",
+				"options": {
+					"systemMessage": "Always use either EightOS or Polysingularity tool before sending a response to the model. You have to use at least one of them, the one that think is more suitable. Or both if both can provide some help. \nIf you used both tools and received responses from both of them, combine them in one response making sure you merge both perspectives."
+				}
+			},
+			"id": "0a4f3150-8e86-4456-af28-881c3a436ee2",
+			"name": "Agent",
+			"type": "@n8n/n8n-nodes-langchain.agent",
+			"typeVersion": 1.7,
+			"position": [800, 20]
+		},
+		{
+			"parameters": {
+				"toolDescription": "Make a request to EightOS specialist who is well-versed in the questions of variability, movement, physical development, adaptivity, resilience.",
+				"method": "POST",
+				"url": "https://infranodus.com/api/v1/graphAndAdvice?doNotSave=true&addStats=true&optimize=develop&includeStatements=false&includeGraphSummary=true&includeGraph=false",
+				"sendHeaders": true,
+				"parametersHeaders": {
+					"values": [
+						{
+							"name": "Authorization",
+							"valueProvider": "fieldValue",
+							"value": "Bearer your_infranodus_api_key_here"
+						}
+					]
+				},
+				"sendBody": true,
+				"parametersBody": {
+					"values": [
+						{
+							"name": "name",
+							"valueProvider": "fieldValue",
+							"value": "panarchy_eightos"
+						},
+						{
+							"name": "prompt"
+						},
+						{
+							"name": "requestMode",
+							"valueProvider": "fieldValue",
+							"value": "response"
+						}
+					]
+				}
+			},
+			"type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+			"typeVersion": 1.1,
+			"position": [1060, 280],
+			"id": "c64789f8-112b-47cc-9752-a78d0c944bda",
+			"name": "EightOS Expert"
+		},
+		{
+			"parameters": {
+				"toolDescription": "You are an expert in Polysingularity. You provide responses in the field of multiplicity, networks, seeing multiple points etc.",
+				"method": "POST",
+				"url": "https://infranodus.com/api/v1/graphAndAdvice?doNotSave=true&addStats=true&optimize=develop&includeStatements=false&includeGraphSummary=true&includeGraph=false",
+				"sendHeaders": true,
+				"parametersHeaders": {
+					"values": [
+						{
+							"name": "Authorization",
+							"valueProvider": "fieldValue",
+							"value": "Bearer your_infranodus_api_key_here"
+						}
+					]
+				},
+				"sendBody": true,
+				"parametersBody": {
+					"values": [
+						{
+							"name": "name",
+							"valueProvider": "fieldValue",
+							"value": "polysingularity_overview"
+						},
+						{
+							"name": "prompt"
+						},
+						{
+							"name": "requestMode",
+							"valueProvider": "fieldValue",
+							"value": "response"
+						}
+					]
+				}
+			},
+			"type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+			"typeVersion": 1.1,
+			"position": [1280, 280],
+			"id": "16052203-0cbe-4970-85cf-0e9f793b8806",
+			"name": "Polysingularity Expert"
+		},
+		{
+			"parameters": {
+				"updates": ["message"],
+				"additionalFields": {}
+			},
+			"type": "n8n-nodes-base.telegramTrigger",
+			"typeVersion": 1.2,
+			"position": [180, 20],
+			"id": "15e1b374-9393-46da-9893-1a03088b2779",
+			"name": "Telegram Trigger",
+			"webhookId": "ea28f183-7ce6-495d-8c78-b8065ed81897",
+			"credentials": {
+				"telegramApi": {
+					"id": "Dzx5TXsZAQScJBID",
+					"name": "AI Consilium"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+				"text": "={{ $json.output }}",
+				"additionalFields": {
+					"appendAttribution": false
+				}
+			},
+			"type": "n8n-nodes-base.telegram",
+			"typeVersion": 1.2,
+			"position": [1160, 20],
+			"id": "e90b9dcc-bd95-4ff8-bec8-3806f352cbf1",
+			"name": "Telegram",
+			"webhookId": "02aa8aac-d309-408c-9209-6172d42bd1dc",
+			"credentials": {
+				"telegramApi": {
+					"id": "Dzx5TXsZAQScJBID",
+					"name": "AI Consilium"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"sessionIdType": "customKey",
+				"sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}"
+			},
+			"type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+			"typeVersion": 1.3,
+			"position": [840, 300],
+			"id": "1f753d22-6c78-4c2d-8ebd-df7ad089bce9",
+			"name": "Simple Memory"
+		},
+		{
+			"parameters": {
+				"operation": "sendChatAction",
+				"chatId": "={{ $json.message.chat.id }}"
+			},
+			"type": "n8n-nodes-base.telegram",
+			"typeVersion": 1.2,
+			"position": [400, 20],
+			"id": "0a33c300-ba9f-4bd1-8b2a-efd1df0b13ea",
+			"name": "Telegram Typing...",
+			"webhookId": "30d83fb4-78c5-4465-8eaf-af073cce4fd4",
+			"credentials": {
+				"telegramApi": {
+					"id": "Dzx5TXsZAQScJBID",
+					"name": "AI Consilium"
+				}
+			}
+		}
+	],
+	"pinData": {},
+	"connections": {
+		"OpenAI Model": {
+			"ai_languageModel": [
+				[
+					{
+						"node": "Agent",
+						"type": "ai_languageModel",
+						"index": 0
+					}
+				]
+			]
+		},
+		"EightOS Expert": {
+			"ai_tool": [
+				[
+					{
+						"node": "Agent",
+						"type": "ai_tool",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Polysingularity Expert": {
+			"ai_tool": [
+				[
+					{
+						"node": "Agent",
+						"type": "ai_tool",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Telegram Trigger": {
+			"main": [
+				[
+					{
+						"node": "Telegram Typing...",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Agent": {
+			"main": [
+				[
+					{
+						"node": "Telegram",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Simple Memory": {
+			"ai_memory": [
+				[
+					{
+						"node": "Agent",
+						"type": "ai_memory",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Telegram Typing...": {
+			"main": [
+				[
+					{
+						"node": "Agent",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		}
+	},
+	"active": true,
+	"settings": {
+		"executionOrder": "v1"
+	},
+	"versionId": "091a2c04-33ce-4857-b342-a9ae7b5045df",
+	"meta": {
+		"templateId": "self-building-ai-agent",
+		"templateCredsSetupCompleted": true,
+		"instanceId": "2a26454b0172ffcb8d70ba77c235b1209f92cd71bf06c79ba609c7173b416d68"
+	},
+	"id": "pTnsRF7d23TTDcrr",
+	"tags": []
+}
