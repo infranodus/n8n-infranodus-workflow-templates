@@ -1,36 +1,120 @@
 {
-	"name": "Telegram <-> InfraNodus AI Knowledge Graph Expert Panel Chat",
+	"name": "Telegram Chat Agent with a Panel of Experts using InfraNodus Graph RAG for Knowledge",
 	"nodes": [
+		{
+			"parameters": {
+				"content": "## AI Chatbot Agent with Experts\n\n### Uses the InfraNodus knowledge graphs and its Graph RAG to retrieve relevant information.\n\nUse your [InfraNodus graph](https://infranodus.com) as the knowledge base for your AI chatbot. \n\nUpload any data to InfraNodus, generate separate knowledge graphs, then connect them as tools to the agent, so it can decide which \"expert\" to use. InfraNodus' Graph RAG will provide high-quality responses that will augment the chatbot's answers.\n\nVideo demo: [https://www.youtube.com/watch?v=kS0QTUvcH6E](https://www.youtube.com/watch?v=kS0QTUvcH6E)\n\nDetailed description: [Nodus Labs support portal](https://support.noduslabs.com/hc/en-us/articles/20174217658396-Using-InfraNodus-Knowledge-Graphs-as-Experts-for-AI-Chatbot-Agents-in-n8n)\n\nInfraNodus API key can be obtained at [InfraNodus.Com](https://infranodus.com/use-case/ai-knowledge-graphs)",
+				"height": 400,
+				"width": 540,
+				"color": 6
+			},
+			"type": "n8n-nodes-base.stickyNote",
+			"position": [-260, -440],
+			"typeVersion": 1,
+			"id": "8e5faf17-c09b-482c-907e-0e09677f65b8",
+			"name": "Sticky Note"
+		},
+		{
+			"parameters": {
+				"content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n## Expert #1\n\nAdd your InfraNodus graph here via the HTTP node using its name in the `body.name` field.\n\nDescribe what the expert does in the Description of the tool. You can use auto-generated Graph RAG summary from InfraNodus > Graph > Project Notes",
+				"height": 540,
+				"width": 200
+			},
+			"type": "n8n-nodes-base.stickyNote",
+			"position": [840, 260],
+			"typeVersion": 1,
+			"id": "1ffc61f8-0993-4883-b60d-b08fc3f7c58f",
+			"name": "Sticky Note1"
+		},
+		{
+			"parameters": {
+				"content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n## Expert #2\n\nAdd your InfraNodus graph here via the HTTP node using its name in the `body.name` field.\n\nDescribe what the expert does in the Description of the tool. You can use auto-generated Graph RAG summary from InfraNodus > Graph > Project Notes",
+				"height": 540,
+				"width": 200
+			},
+			"type": "n8n-nodes-base.stickyNote",
+			"position": [1060, 260],
+			"typeVersion": 1,
+			"id": "b981454f-6e15-4e6b-a6da-2aff8cdf2cd4",
+			"name": "Sticky Note2"
+		},
+		{
+			"parameters": {
+				"content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n## Expert #3\n\nYou can add more experts here. Just make to give them descriptive names, so the agent knows which one to connect to when it has a question. ",
+				"height": 540,
+				"width": 200
+			},
+			"type": "n8n-nodes-base.stickyNote",
+			"position": [1280, 260],
+			"typeVersion": 1,
+			"id": "89a89e1f-118c-4ae3-b75b-aeae4137c460",
+			"name": "Sticky Note3"
+		},
+		{
+			"parameters": {
+				"content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n## Chat Memory\n\nWe use the Simple Memory node to track the conversation's context so that the user can refer to previous messages as they converse with the model.",
+				"height": 540,
+				"width": 200
+			},
+			"type": "n8n-nodes-base.stickyNote",
+			"position": [620, 260],
+			"typeVersion": 1,
+			"id": "0b1b7670-0cc0-4a5b-9a0c-bc2053c6ce5d",
+			"name": "Sticky Note4"
+		},
+		{
+			"parameters": {
+				"content": "## 3. AI Agent Workflow\n\n### Chooses which tool (expert) to use, depending on the user's message. Then receives the responses and synthesizes the final answer.\n\nMake sure you describe the tools available well both in the Agent's System Prompt and in the tools' descriptions. ",
+				"height": 400,
+				"width": 460
+			},
+			"type": "n8n-nodes-base.stickyNote",
+			"position": [420, -260],
+			"typeVersion": 1,
+			"id": "2127793c-a48a-4810-b86b-ef5c57f26f36",
+			"name": "Sticky Note5"
+		},
+		{
+			"parameters": {
+				"content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n## 1. Telegram Trigger\n\nThe conversation will be triggered when you send a message to your Telegram bot. To set up a bot, simply message `/newbot` to `@botfather` in Telegram. It takes 30 seconds. ",
+				"height": 500
+			},
+			"type": "n8n-nodes-base.stickyNote",
+			"position": [-260, 20],
+			"typeVersion": 1,
+			"id": "241339d2-ba7e-47a4-8829-ca2e613107cf",
+			"name": "Sticky Note6"
+		},
 		{
 			"parameters": {
 				"model": "gpt-4o",
 				"options": {}
 			},
-			"id": "11ece303-43c2-45e0-882b-ac9230c2a3f3",
+			"id": "6fcfccd1-da33-4a1f-9de9-c58666ac173e",
 			"name": "OpenAI Model",
 			"type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
 			"typeVersion": 1,
-			"position": [640, 300],
+			"position": [400, 320],
 			"credentials": {
 				"openAiApi": {
-					"id": "cfyf2SAH7pHQjAc4",
-					"name": "OpenAi account"
+					"id": "07wFa8Wa4mMRCHAj",
+					"name": "OpenAi account 2"
 				}
 			}
 		},
 		{
 			"parameters": {
 				"promptType": "define",
-				"text": "={{ $('Telegram Trigger').item.json.message.text }}",
+				"text": "={{ $('Receive a Message on Telegram').item.json.message.text }}",
 				"options": {
 					"systemMessage": "Always use either EightOS or Polysingularity tool before sending a response to the model. You have to use at least one of them, the one that think is more suitable. Or both if both can provide some help. \nIf you used both tools and received responses from both of them, combine them in one response making sure you merge both perspectives."
 				}
 			},
-			"id": "0a4f3150-8e86-4456-af28-881c3a436ee2",
+			"id": "eae07bda-8fb6-4180-a7b6-a133c4ac3625",
 			"name": "Agent",
 			"type": "@n8n/n8n-nodes-langchain.agent",
 			"typeVersion": 1.7,
-			"position": [800, 20]
+			"position": [520, 0]
 		},
 		{
 			"parameters": {
@@ -68,8 +152,8 @@
 			},
 			"type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
 			"typeVersion": 1.1,
-			"position": [1060, 280],
-			"id": "c64789f8-112b-47cc-9752-a78d0c944bda",
+			"position": [900, 300],
+			"id": "f17ea1a1-1c4a-4adf-bcc7-51d0badfe73b",
 			"name": "EightOS Expert"
 		},
 		{
@@ -108,9 +192,32 @@
 			},
 			"type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
 			"typeVersion": 1.1,
-			"position": [1280, 280],
-			"id": "16052203-0cbe-4970-85cf-0e9f793b8806",
+			"position": [1120, 300],
+			"id": "f0fc98cf-7da4-4301-bf5f-ca7fcd484f76",
 			"name": "Polysingularity Expert"
+		},
+		{
+			"parameters": {
+				"sessionIdType": "customKey",
+				"sessionKey": "={{ $('Receive a Message on Telegram').item.json.message.chat.id }}"
+			},
+			"type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+			"typeVersion": 1.3,
+			"position": [680, 300],
+			"id": "a2d1decb-2d68-440f-8291-49b919782566",
+			"name": "Simple Memory"
+		},
+		{
+			"parameters": {
+				"content": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n## 2. Give Feedback to User\n\nThis node gives feedback to the user that the Agent is working.",
+				"height": 500,
+				"width": 260
+			},
+			"type": "n8n-nodes-base.stickyNote",
+			"position": [20, 20],
+			"typeVersion": 1,
+			"id": "ecd4b1a0-b600-42f2-be47-fbfaf76075a6",
+			"name": "Sticky Note7"
 		},
 		{
 			"parameters": {
@@ -119,48 +226,16 @@
 			},
 			"type": "n8n-nodes-base.telegramTrigger",
 			"typeVersion": 1.2,
-			"position": [180, 20],
-			"id": "15e1b374-9393-46da-9893-1a03088b2779",
-			"name": "Telegram Trigger",
+			"position": [-200, 40],
+			"id": "76bf696e-7121-43bd-8fad-c1136826086f",
+			"name": "Receive a Message on Telegram",
 			"webhookId": "ea28f183-7ce6-495d-8c78-b8065ed81897",
 			"credentials": {
 				"telegramApi": {
-					"id": "Dzx5TXsZAQScJBID",
-					"name": "AI Consilium"
+					"id": "i65hobLi6OlgXF91",
+					"name": "Telegram AI Consilium Bot"
 				}
 			}
-		},
-		{
-			"parameters": {
-				"chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
-				"text": "={{ $json.output }}",
-				"additionalFields": {
-					"appendAttribution": false
-				}
-			},
-			"type": "n8n-nodes-base.telegram",
-			"typeVersion": 1.2,
-			"position": [1160, 20],
-			"id": "e90b9dcc-bd95-4ff8-bec8-3806f352cbf1",
-			"name": "Telegram",
-			"webhookId": "02aa8aac-d309-408c-9209-6172d42bd1dc",
-			"credentials": {
-				"telegramApi": {
-					"id": "Dzx5TXsZAQScJBID",
-					"name": "AI Consilium"
-				}
-			}
-		},
-		{
-			"parameters": {
-				"sessionIdType": "customKey",
-				"sessionKey": "={{ $('Telegram Trigger').item.json.message.chat.id }}"
-			},
-			"type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
-			"typeVersion": 1.3,
-			"position": [840, 300],
-			"id": "1f753d22-6c78-4c2d-8ebd-df7ad089bce9",
-			"name": "Simple Memory"
 		},
 		{
 			"parameters": {
@@ -169,14 +244,47 @@
 			},
 			"type": "n8n-nodes-base.telegram",
 			"typeVersion": 1.2,
-			"position": [400, 20],
-			"id": "0a33c300-ba9f-4bd1-8b2a-efd1df0b13ea",
-			"name": "Telegram Typing...",
+			"position": [100, 40],
+			"id": "01feeb0a-ef5b-402c-8b83-42bc12c0ae16",
+			"name": "Send \"Typing...\" message to User",
 			"webhookId": "30d83fb4-78c5-4465-8eaf-af073cce4fd4",
 			"credentials": {
 				"telegramApi": {
-					"id": "Dzx5TXsZAQScJBID",
-					"name": "AI Consilium"
+					"id": "i65hobLi6OlgXF91",
+					"name": "Telegram AI Consilium Bot"
+				}
+			}
+		},
+		{
+			"parameters": {
+				"content": "## 4. Respond to the User\n\nOnce the response is generated, send it back to the user's chat in Telegram.",
+				"height": 380,
+				"width": 260
+			},
+			"type": "n8n-nodes-base.stickyNote",
+			"position": [1060, -200],
+			"typeVersion": 1,
+			"id": "c0b9a45b-900a-4b7f-aecf-528cf3a82477",
+			"name": "Sticky Note8"
+		},
+		{
+			"parameters": {
+				"chatId": "={{ $('Receive a Message on Telegram').item.json.message.chat.id }}",
+				"text": "={{ $json.output }}",
+				"additionalFields": {
+					"appendAttribution": false
+				}
+			},
+			"type": "n8n-nodes-base.telegram",
+			"typeVersion": 1.2,
+			"position": [1120, 0],
+			"id": "7b43081c-74a7-4227-90ea-105bf38645e2",
+			"name": "Send Telegram Message to User",
+			"webhookId": "02aa8aac-d309-408c-9209-6172d42bd1dc",
+			"credentials": {
+				"telegramApi": {
+					"id": "i65hobLi6OlgXF91",
+					"name": "Telegram AI Consilium Bot"
 				}
 			}
 		}
@@ -189,6 +297,17 @@
 					{
 						"node": "Agent",
 						"type": "ai_languageModel",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Agent": {
+			"main": [
+				[
+					{
+						"node": "Send Telegram Message to User",
+						"type": "main",
 						"index": 0
 					}
 				]
@@ -216,28 +335,6 @@
 				]
 			]
 		},
-		"Telegram Trigger": {
-			"main": [
-				[
-					{
-						"node": "Telegram Typing...",
-						"type": "main",
-						"index": 0
-					}
-				]
-			]
-		},
-		"Agent": {
-			"main": [
-				[
-					{
-						"node": "Telegram",
-						"type": "main",
-						"index": 0
-					}
-				]
-			]
-		},
 		"Simple Memory": {
 			"ai_memory": [
 				[
@@ -249,7 +346,18 @@
 				]
 			]
 		},
-		"Telegram Typing...": {
+		"Receive a Message on Telegram": {
+			"main": [
+				[
+					{
+						"node": "Send \"Typing...\" message to User",
+						"type": "main",
+						"index": 0
+					}
+				]
+			]
+		},
+		"Send \"Typing...\" message to User": {
 			"main": [
 				[
 					{
@@ -261,16 +369,58 @@
 			]
 		}
 	},
-	"active": true,
+	"active": false,
 	"settings": {
 		"executionOrder": "v1"
 	},
-	"versionId": "091a2c04-33ce-4857-b342-a9ae7b5045df",
+	"versionId": "0b557610-a5dd-4774-8c32-c1941e800f92",
 	"meta": {
-		"templateId": "self-building-ai-agent",
 		"templateCredsSetupCompleted": true,
 		"instanceId": "2a26454b0172ffcb8d70ba77c235b1209f92cd71bf06c79ba609c7173b416d68"
 	},
-	"id": "pTnsRF7d23TTDcrr",
-	"tags": []
+	"id": "4w1CQrg1EAt9lKhL",
+	"tags": [
+		{
+			"createdAt": "2025-05-21T17:06:32.355Z",
+			"updatedAt": "2025-05-21T17:06:32.355Z",
+			"id": "66wgFoDi9Xjl74M3",
+			"name": "Support"
+		},
+		{
+			"createdAt": "2025-05-21T17:06:29.704Z",
+			"updatedAt": "2025-05-21T17:06:29.704Z",
+			"id": "9QurS5Kb1CkCYrnG",
+			"name": "Product"
+		},
+		{
+			"createdAt": "2025-05-20T14:53:20.662Z",
+			"updatedAt": "2025-05-20T14:53:20.662Z",
+			"id": "IzYV3Gv55x1h73cK",
+			"name": "Ideation"
+		},
+		{
+			"createdAt": "2025-05-20T14:53:23.085Z",
+			"updatedAt": "2025-05-20T14:53:23.085Z",
+			"id": "aECLdyckoPZ29skg",
+			"name": "Writing"
+		},
+		{
+			"createdAt": "2025-05-20T14:53:17.515Z",
+			"updatedAt": "2025-05-20T14:53:17.515Z",
+			"id": "ciIq4giMNXaJiyiQ",
+			"name": "Thinking Tools"
+		},
+		{
+			"createdAt": "2025-05-21T17:06:34.674Z",
+			"updatedAt": "2025-05-21T17:06:34.674Z",
+			"id": "hCzs9EJfBuD0RxuX",
+			"name": "Other"
+		},
+		{
+			"createdAt": "2025-05-20T13:16:15.636Z",
+			"updatedAt": "2025-05-20T13:16:15.636Z",
+			"id": "sJk9cUvmMU8FkJXv",
+			"name": "AI"
+		}
+	]
 }
