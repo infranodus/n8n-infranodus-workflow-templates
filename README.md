@@ -9,7 +9,7 @@ Useful n8n templates to be used with [InfraNodus knowledge graphs](https://infra
 
 [x] Telegram chat with a panel of experts using the InfraNodus knowledge graph as its knowledge
 
-[ ] Generate Business Ideas Based on Your Competitors' Content Gaps 
+[x] Generate Business Ideas Based on Your Competitors' Content Gaps 
 
 [ ] Automatically Update Your InfraNodus Graph with the Docs from the Google Drive Folder
 
