@@ -1,0 +1,528 @@
+{
+  "name": "Upload Google Drive files from a Folder to a Vector Store",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        -100
+      ],
+      "id": "673b87b1-a1b6-444f-8f06-35a82d67f3c4",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "*",
+        "returnAll": true,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1NFekB1_H3ADF8C5o4eN_l893d6INbfRA",
+            "mode": "list",
+            "cachedResultName": "Polysingularity",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1NFekB1_H3ADF8C5o4eN_l893d6INbfRA"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -220,
+        -100
+      ],
+      "id": "c6f9f022-861f-4fb1-b50c-9db89ad35d3e",
+      "name": "Search Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "oz9iNMxcuQ2pxr1e",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        40,
+        -100
+      ],
+      "id": "ec27d847-4a2e-4618-a986-fb83fb671a46",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "17uxxKyraxApk6CWCxiAsvTLVZUGX0nVg"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        280,
+        -80
+      ],
+      "id": "9e3d0577-6947-44a4-9452-23616302abec",
+      "name": "Retrieve File",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "oz9iNMxcuQ2pxr1e",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "7b4e792b-ab6d-4b9b-88a1-d8e51bea6853",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{$binary[\"data\"].mimeType}}",
+                    "rightValue": "application/pdf"
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "pdf"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "09b7d7c5-5353-4719-b4e2-072e4da39948",
+                    "operator": {
+                      "name": "filter.operator.equals",
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{$binary[\"data\"].mimeType}}",
+                    "rightValue": "text/plain"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cb2e6726-97d8-4541-8383-deafff9b18e6",
+                    "leftValue": "={{$binary[\"data\"].mimeType}}",
+                    "rightValue": "text/markdown",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "md"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "d2763a45-a592-47c8-868f-59dfcd17a71c",
+                    "operator": {
+                      "name": "filter.operator.equals",
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{$binary[\"data\"].mimeType}}",
+                    "rightValue": "application/json"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "json"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "0d9b561f-89c5-479e-a4e2-1f5f05fa8417",
+                    "leftValue": "={{$binary[\"data\"].mimeType}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "docs"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "6b19deed-5d00-4796-bb9d-b4d87564a751",
+                    "leftValue": "={{$binary[\"data\"].mimeType}}",
+                    "rightValue": "csv",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "csv"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "824e5e2b-7bf5-499c-90e5-5e9ae3aeaa18",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "position": [
+        460,
+        -20
+      ],
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        700,
+        -260
+      ],
+      "id": "d3697f1c-795e-43d4-a16a-52ab9044bbfd",
+      "name": "Extract from PDF"
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        700,
+        -60
+      ],
+      "id": "31f46d48-9f90-466c-9b8f-05c968a53ef3",
+      "name": "Extract from Text File"
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        700,
+        140
+      ],
+      "id": "74101368-5735-495d-827a-87379ae13802",
+      "name": "Extract from Markdown"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "polysingularity",
+          "mode": "list",
+          "cachedResultName": "polysingularity"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.1,
+      "position": [
+        1080,
+        140
+      ],
+      "id": "1557fd8b-c3e6-489b-b173-92db5c1f6ae1",
+      "name": "Pinecone Vector Store",
+      "credentials": {
+        "pineconeApi": {
+          "id": "xigErPNioL4IRkAu",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        960,
+        480
+      ],
+      "id": "adb1fc08-4927-4788-844c-90de6ca50ee5",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "07wFa8Wa4mMRCHAj",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        480
+      ],
+      "id": "e72977c8-5cf9-4cfd-964e-17fd5766f2f2",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "chunkOverlap": 100,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        1160,
+        680
+      ],
+      "id": "33157fc7-097f-4297-bb16-49ba19e664f7",
+      "name": "Recursive Character Text Splitter"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Search Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Retrieve File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Search Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve File": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Extract from PDF",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract from Text File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract from Markdown",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        []
+      ]
+    },
+    "Extract from Markdown": {
+      "main": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from Text File": {
+      "main": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from PDF": {
+      "main": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Pinecone Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone Vector Store": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8cd80d6f-d142-4ee7-9386-9d5c8e72fcfa",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2a26454b0172ffcb8d70ba77c235b1209f92cd71bf06c79ba609c7173b416d68"
+  },
+  "id": "SKNxjfmH7MMk1RYW",
+  "tags": []
+}
