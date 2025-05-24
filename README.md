@@ -11,7 +11,7 @@ Useful n8n templates to be used with [InfraNodus knowledge graphs](https://infra
 
 [x] Generate Business Ideas Based on Your Competitors' Content Gaps 
 
-[ ] Automatically Update Your InfraNodus Graph with the Docs from the Google Drive Folder
+[x] Automatically Update Your InfraNodus Graph with the Docs from the Google Drive Folder
 
 [ ] Create a Marketing Report of the USPs, Strengths, and Weaknesses of Your Competition, Analyze the Results with InfraNodus
 
