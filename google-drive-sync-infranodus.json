@@ -1,0 +1,561 @@
+{
+  "name": "Sync Google Drive files to an InfraNodus Graph",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -220,
+        -100
+      ],
+      "id": "b3c9c0dd-7f02-42d0-9fd0-bf25319cf0f0",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        260,
+        -180
+      ],
+      "id": "a41556ba-b7db-41b5-8213-e1aff3f7fe03",
+      "name": "Retrieve File",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "oz9iNMxcuQ2pxr1e",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "7b4e792b-ab6d-4b9b-88a1-d8e51bea6853",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{$binary[\"data\"].mimeType}}",
+                    "rightValue": "application/pdf"
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "pdf"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "09b7d7c5-5353-4719-b4e2-072e4da39948",
+                    "operator": {
+                      "name": "filter.operator.equals",
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{$binary[\"data\"].mimeType}}",
+                    "rightValue": "text/plain"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cb2e6726-97d8-4541-8383-deafff9b18e6",
+                    "leftValue": "={{$binary[\"data\"].mimeType}}",
+                    "rightValue": "text/markdown",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "md"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "d2763a45-a592-47c8-868f-59dfcd17a71c",
+                    "operator": {
+                      "name": "filter.operator.equals",
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{$binary[\"data\"].mimeType}}",
+                    "rightValue": "application/json"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "json"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "0d9b561f-89c5-479e-a4e2-1f5f05fa8417",
+                    "leftValue": "={{$binary[\"data\"].mimeType}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "docs"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "6b19deed-5d00-4796-bb9d-b4d87564a751",
+                    "leftValue": "={{$binary[\"data\"].mimeType}}",
+                    "rightValue": "csv",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "csv"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bc74f177-7ff6-4c3b-b63a-6f9f2d11a9b8",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "position": [
+        680,
+        -20
+      ],
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        920,
+        -260
+      ],
+      "id": "1844fd33-c4a3-43ef-b945-dcf433f7e424",
+      "name": "Extract from PDF"
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        920,
+        -60
+      ],
+      "id": "6da5e064-8ea3-4c2c-9bc9-5c66deb63b3a",
+      "name": "Extract from Text File"
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        920,
+        140
+      ],
+      "id": "6b70f1e5-82ca-4109-8047-7b9491fa7619",
+      "name": "Extract from Markdown"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://infranodus.com/api/v1/graphAndStatements?doNotSave=false&optimize=develop&includeGraph=false&includeGraphSummary=true&includeGraph=false",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "polysingularity_from_google_drive"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json.data }}"
+            },
+            {
+              "name": "=categories",
+              "value": "=[filename: {{ $('Switch').item.json.name }}]"
+            },
+            {
+              "name": "contextSettings",
+              "value": "={{{ \"squareBracketsProcessing\":\"IGNORE_BRACKETS\"} }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1580,
+        240
+      ],
+      "id": "e46d8e8d-72b5-4a57-bb09-6915b4af28e5",
+      "name": "InfraNodus Save to Graph",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "6lSuuSDajZrvI2GM",
+          "name": "InfraNodus API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## 1. Listen to a Google Drive folder / create new file event\n\n### You need to create the folder first and upload the files there. \n\n🚨 Specify the folder you want to use here",
+        "height": 520,
+        "width": 500
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -540,
+        -360
+      ],
+      "typeVersion": 1,
+      "id": "cebe84e6-3f9d-4806-b42a-2664717baef1",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## 2. Iterate through every file extracted\n\n### We get the ID of the file and iterate through them one by one\n\n\n",
+        "height": 520,
+        "width": 500
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        20,
+        -360
+      ],
+      "typeVersion": 1,
+      "id": "cff84fdb-9fd1-4600-a436-d452ec73778d",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## 3. Extract text from the files\n\n### Use the built-in n8n extractor tools to convert different file formats: PDF, txt, or markdown to plain text.\n\n",
+        "height": 840,
+        "width": 500
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        580,
+        -520
+      ],
+      "typeVersion": 1,
+      "id": "e0e1bab5-e281-4572-8207-227aec2fe4bf",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## 4. Save the file to InfraNodus\n\n### Save the text content of the file to the graph, using its name as category (so you can manually delete it after) and additional processing settings (in the `body` field of the POST request.\n\nNote: you can use an existing graph name (the `name` field) or specify a new name and the graph will be created.\n\n",
+        "height": 840,
+        "width": 500
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1200,
+        -380
+      ],
+      "typeVersion": 1,
+      "id": "879324fc-275a-4e5f-b23d-d9a3369d86ac",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "# Sync Google Drive files to an InfraNodus graph\n\n## This workflow listens to newly added files in the Google Drive folder you specify and automatically uploads it to a graph\n\n🚨 note that when you delete the file, you'll have to manually remove it from InfraNodus\n\n",
+        "height": 240,
+        "width": 1060,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -540,
+        -660
+      ],
+      "typeVersion": 1,
+      "id": "cee0485d-667e-447a-a66c-9579fa7bb25e",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fd160009-0b92-46fc-9e34-a1283b810e91",
+              "name": "data",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1240,
+        -100
+      ],
+      "id": "de8c6bde-5576-44d4-9bdf-8e36e22ff00d",
+      "name": "Map PDF to Text"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1NFekB1_H3ADF8C5o4eN_l893d6INbfRA",
+          "mode": "list",
+          "cachedResultName": "Polysingularity",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1NFekB1_H3ADF8C5o4eN_l893d6INbfRA"
+        },
+        "event": "fileCreated",
+        "options": {
+          "fileType": "all"
+        }
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -480,
+        -100
+      ],
+      "id": "571a5204-afae-4329-9d87-c0474dadb20b",
+      "name": "New File Created in the Google Folder?",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "oz9iNMxcuQ2pxr1e",
+          "name": "Google Drive account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Retrieve File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve File": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Extract from PDF",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract from Text File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract from Markdown",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        []
+      ]
+    },
+    "Extract from Markdown": {
+      "main": [
+        [
+          {
+            "node": "InfraNodus Save to Graph",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from Text File": {
+      "main": [
+        [
+          {
+            "node": "InfraNodus Save to Graph",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from PDF": {
+      "main": [
+        [
+          {
+            "node": "Map PDF to Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "InfraNodus Save to Graph": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map PDF to Text": {
+      "main": [
+        [
+          {
+            "node": "InfraNodus Save to Graph",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New File Created in the Google Folder?": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "808e4dcf-67e3-4a40-bb2d-b25fe57cb3be",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2a26454b0172ffcb8d70ba77c235b1209f92cd71bf06c79ba609c7173b416d68"
+  },
+  "id": "SMDFq24qv9Xc02SM",
+  "tags": []
+}
