@@ -61,8 +61,8 @@
         "operation": "download",
         "fileId": {
           "__rl": true,
-          "mode": "id",
-          "value": "17uxxKyraxApk6CWCxiAsvTLVZUGX0nVg"
+          "value": "={{ $json.id }}",
+          "mode": "id"
         },
         "options": {}
       },
@@ -518,7 +518,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "8cd80d6f-d142-4ee7-9386-9d5c8e72fcfa",
+  "versionId": "4b4d0408-2352-49c7-8b38-ef8d2a3b885f",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "2a26454b0172ffcb8d70ba77c235b1209f92cd71bf06c79ba609c7173b416d68"
