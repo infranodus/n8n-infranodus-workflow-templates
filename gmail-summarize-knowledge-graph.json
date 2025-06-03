@@ -1,0 +1,1324 @@
+{
+  "name": "Generate Visual Summary & Knowledge Graph Insights for Your Email",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## 1. How to Trigger?\n\n### a. via a password-protected private URL form where you can specify which emails you want to analyze\n\n### b. daily trigger (for regular automated updates)\n\n### c. manual trigger\n\n### d. webhook\n\nTo select a trigger, activate it while deactivating the others.\n\nTo learn more about the email search criteria, refer to this [Google page](https://support.google.com/mail/answer/7190?hl=en&co=GENIE.Platform%3DAndroid)\n\n\n\n",
+        "height": 1140,
+        "width": 380
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2040,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "0b7c5c85-ce9e-4181-be1d-cc1f5457670b",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://infranodus.com/api/v1/graphAndAdvice?doNotSave=true&optimize=gap&includeGraph=false&includeGraphSummary=true",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "aiTopics",
+              "value": "true"
+            },
+            {
+              "name": "requestMode",
+              "value": "question"
+            },
+            {
+              "name": "name",
+              "value": "gmail_n8n_search"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2240,
+        440
+      ],
+      "id": "4689b5ed-b7bd-44fd-9cd7-c08b343c304b",
+      "name": "InfraNodus Question Generator",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "FPDx6PA5CtzGEIQc",
+          "name": "InfraNodus DeeMeeTree API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "\nlet statements = []\nfor (const item of $input.all()) {\n\n  item.json.from?.forEach((emailOrigin, index) => {\n    const textContent = item.json.text[index]?.split('\\n').join(' ');\n    const cleanTextContent = removeHtmlCssScript(textContent)\n    const cleanDate = new Date().toDateString()\n    statements.push('[[' + emailOrigin + ']] ' + '[' + cleanDate + '] ' + cleanTextContent)\n  })\n}\n\nreturn { statements: statements }\n\nfunction removeHtmlCssScript(text) {\n  if (!text || typeof text !== 'string') {\n    return '';\n  }\n  \n  let cleanText = text;\n  \n  // Remove script tags and their content (case insensitive)\n  cleanText = cleanText.replace(/<script[^>]*>[\\s\\S]*?<\\/script>/gi, '');\n  \n  // Remove style tags and their content (case insensitive)\n  cleanText = cleanText.replace(/<style[^>]*>[\\s\\S]*?<\\/style>/gi, '');\n  \n  // Remove HTML comments\n  cleanText = cleanText.replace(/<!--[\\s\\S]*?-->/g, '');\n  \n  // Remove all remaining HTML tags\n  cleanText = cleanText.replace(/<[^>]*>/g, '');\n  \n  // Decode common HTML entities\n  const htmlEntities = {\n    '&amp;': '&',\n    '&lt;': '<',\n    '&gt;': '>',\n    '&quot;': '\"',\n    '&#39;': \"'\",\n    '&nbsp;': ' ',\n    '&copy;': '©',\n    '&reg;': '®',\n    '&trade;': '™'\n  };\n  \n  Object.keys(htmlEntities).forEach(entity => {\n    const regex = new RegExp(entity, 'g');\n    cleanText = cleanText.replace(regex, htmlEntities[entity]);\n  });\n  \n  // Clean up extra whitespace\n  cleanText = cleanText.replace(/\\s+/g, ' ').trim();\n  \n  return cleanText;\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        200
+      ],
+      "id": "b1df9995-d2c7-430c-8a7d-1fe25a8c60dd",
+      "name": "Clean text and organize into statements"
+    },
+    {
+      "parameters": {
+        "content": "# Visual Summary & Knowledge Graph Insights for Your Gmail\n\n## Use this workflow to filter your emails by search terms, date, labels, or AI-defined criteria and to visualize the main topics and gaps using the [InfraNodus knowledge graph](https://infranodus.com). Generate topical summaries and insights based on the gaps, receive them via Telegram.\n\n### Some interesting use cases:\n- Analyze all your personal messages for the week to get an overview of the main topics \n- Analyze all your Sent messages to find recurrent topics and gaps and generate ideas based. on those gaps\n- Generate ideas based on specific message filter (Personal, Promos, from a specific person, AI-defined criteria, e.g. urgency)\n- Get an overview of an interaction with a specific person / company\n- Get an overview of your notes\n- Generate ideas based on your correspondence\n- Learn about various n8n nodes useful for email processing, filtering, and data conversion\n- Never miss important topics \n\n\n### To set up (takes 2 minutes):\n- Connect your Gmail account in steps 3 and 4 (best works if you have a Google cloud Oauth key, which you can use for other Google services)\n- Get your [InfraNodus API](https://infranodus.com/api-access) key and add it in steps 7 and 8\n- Connect to your Telegram bot (takes 30 secs to set up via [@botfather](https://t.me/botfather) in step 8\n- Use a Form trigger to experiment or specify your default parameters in the Step 2 node\n",
+        "height": 600,
+        "width": 1280,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2040,
+        -880
+      ],
+      "typeVersion": 1,
+      "id": "d6931f5f-d22b-487f-9357-44d123e13fe3",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-preview-04-17",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        120,
+        500
+      ],
+      "id": "d331f95d-48b2-4497-8f10-b2ed6b616be3",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ivswOFTY8MYDbj5b",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a8278945-a9a1-45c6-809f-b9282f6de0ed",
+              "leftValue": "={{ $('Assign Processing Settings').item.json[\"Label Filter\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1080,
+        320
+      ],
+      "id": "4fa9a058-a4c0-4c7a-b4f7-2203009bc864",
+      "name": "Was label provided?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "802f2028-04bb-43ad-befa-416c0afc5515",
+              "leftValue": "={{ $('Assign Processing Settings').item.json['Analyze Full Email Text?'] }}",
+              "rightValue": "Snippets",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -620,
+        380
+      ],
+      "id": "3e86bfb0-eaf5-4222-8179-530df6efbfb3",
+      "name": "Should analyze snippets?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "82abd9a8-375b-4c3f-8f19-be6b3c1b8e80",
+              "leftValue": "={{ $('Assign Processing Settings').item.json['Analyze Full Email Text?'] }}",
+              "rightValue": "Snippets",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -600,
+        60
+      ],
+      "id": "f330811a-0b9a-4e74-a0fc-593a7c446662",
+      "name": "Should analyze snippets from filtered emails?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "731d1986-b8e1-480f-b956-0e9e7d2b9df8",
+              "leftValue": "={{ $json.labels.map(label => label.name) }}",
+              "rightValue": "={{ $('Assign Processing Settings').item.json['Label Filter'] }}",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -880,
+        160
+      ],
+      "id": "ae1040dd-8f3a-4121-bc72-714892108439",
+      "name": "Filter emails by label",
+      "notesInFlow": true,
+      "notes": "To only show personal mails, use CATEGORY_PERSONAL in the filters (or any other label you like)\nCATEGORY_PROMOTIONS - for promos\nSENT - for your sent messages"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "messageId": "={{ $json.id }}",
+        "simple": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -280,
+        380
+      ],
+      "id": "cb3d8e7e-99c6-4e1f-af5d-9619933d2ddc",
+      "name": "Get Full Message Content",
+      "webhookId": "82bcb411-da21-4c0b-b597-a22f1fc5c4df",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "pL8OjzEMWakSY1Nk",
+          "name": "Gmail paranyushkin"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6ccf71c6-0f1b-4560-82c7-0185946af0a2",
+              "leftValue": "={{ $('Assign Processing Settings').item.json['Email Type Description'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -20,
+        220
+      ],
+      "id": "34b6a144-d16c-4a24-8bca-b0419731ce92",
+      "name": "Should use AI to filter emails further?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "eaffd686-c04b-4327-b2c5-3b0da2eee00e",
+              "leftValue": "={{ $json.text || $json.snippet }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        160,
+        120
+      ],
+      "id": "e620c785-27f7-4458-aadc-731ba237e027",
+      "name": "Message text or snippet present?"
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.text || $json.snippet }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "Matched User's Condition",
+              "description": "={{ $('Assign Processing Settings').item.json['Email Type Description'] }}"
+            },
+            {
+              "category": "Spam and Notifications",
+              "description": "Spam, automatic notifications, generic, non-personalized emails, non-personalized commercial offers, promotions, discounts"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1,
+      "position": [
+        300,
+        280
+      ],
+      "id": "031a6e2a-d3fb-439c-875b-8cdcfbec0d54",
+      "name": "Classify Emails"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9448b606-0961-4852-8917-408e5fef7df9",
+              "leftValue": "={{ $json.text }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        760,
+        200
+      ],
+      "id": "0034263b-8dbe-4ca9-b932-2000aaea2542",
+      "name": "Text field present?"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "from.text",
+              "renameField": true,
+              "outputFieldName": "from"
+            },
+            {
+              "fieldToAggregate": "text",
+              "renameField": true,
+              "outputFieldName": "text"
+            },
+            {
+              "fieldToAggregate": "date",
+              "renameField": true,
+              "outputFieldName": "date"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        980,
+        80
+      ],
+      "id": "c5915990-f58b-4111-aca1-cf51a11437eb",
+      "name": "Aggregate from full email texts"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "From",
+              "renameField": true,
+              "outputFieldName": "from"
+            },
+            {
+              "fieldToAggregate": "snippet",
+              "renameField": true,
+              "outputFieldName": "text"
+            },
+            {
+              "fieldToAggregate": "internalDate",
+              "renameField": true,
+              "outputFieldName": "date"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        980,
+        360
+      ],
+      "id": "89ea2ef9-f6fe-4e57-a24a-8b46205be023",
+      "name": "Aggregate from email snippets"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1980,
+        160
+      ],
+      "id": "d2aabf56-d296-4afb-92e2-c0238b58dd74",
+      "name": "Wait before generating questions",
+      "webhookId": "d2324bb8-cf80-49f1-bc9b-96b1f9ce6519"
+    },
+    {
+      "parameters": {
+        "chatId": "321949917",
+        "text": "=🧬 The knowledge graph is ready at [https://infranodus.com/your_user_name/gmail_n8n_search/edit](https://infranodus.com/your_user_name/gmail_n8n_search/edit)\n\nTopical Summary: \n{{ $json.aiAdvice[0].text }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2840,
+        180
+      ],
+      "id": "8c9976fb-c63c-4a66-ae32-8623938171d8",
+      "name": "Send the graph link and summary via Telegram",
+      "webhookId": "f3b2725d-71e2-40af-b7fc-a8a5a128a8f8",
+      "credentials": {
+        "telegramApi": {
+          "id": "UXVSOiGwy2SPh7Du",
+          "name": "Gmail Talker Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "321949917",
+        "text": "=💎 Insight Question: \n{{ $json.aiAdvice[0].text }}\n \nMore at [https://infranodus.com/your_user_name/gmail_n8n_search/edit](https://infranodus.com/your_user_name/gmail_n8n_search/edit)",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2840,
+        440
+      ],
+      "id": "fa11fb7e-d766-43e2-9805-8285a6e0d2d1",
+      "name": "Send an insight question via Telegram",
+      "webhookId": "bdfc652d-6bca-4875-8183-b28ca48e8147",
+      "credentials": {
+        "telegramApi": {
+          "id": "UXVSOiGwy2SPh7Du",
+          "name": "Gmail Talker Bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "returnAll": true,
+        "filters": {
+          "q": "={{ $json[\"Search Criteria\"] }}"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -1280,
+        320
+      ],
+      "id": "60dbec5c-2f8b-4da3-84ed-77c2fe4133b7",
+      "name": "Get Messages by Search Criteria",
+      "webhookId": "0ffebeee-35bb-44e2-a20a-4e2d02bb1b6b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "pL8OjzEMWakSY1Nk",
+          "name": "Gmail paranyushkin"
+        }
+      },
+      "notes": "// use this is a filter to retrieve yesterday's date\n// change the number 1 below to the number of days to go behind\n{{ \n  (() => {\n    const yesterday = new Date();\n    yesterday.setDate(yesterday.getDate() - 1);\n    return `after:${yesterday.getFullYear()}/${(yesterday.getMonth() + 1).toString().padStart(2, '0')}/${yesterday.getDate().toString().padStart(2, '0')}`;\n  })()\n}}"
+    },
+    {
+      "parameters": {
+        "authentication": "basicAuth",
+        "formTitle": "Generate a Visual Summary of Your Mailbox",
+        "formDescription": "Build a knowledge graph from your Gmail mails based on search criteria, label, date, and email type. Generate topical summary and insight questions.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Search Criteria",
+              "placeholder": "e.g. from:email@gmail.com after:2025/06/01 label:personal"
+            },
+            {
+              "fieldLabel": "Label Filter",
+              "placeholder": "SENT, CATEGORY_PERSONAL - for additional filtering"
+            },
+            {
+              "fieldLabel": "Email Type Description",
+              "placeholder": "Anything that relates to my work on various projects"
+            },
+            {
+              "fieldLabel": "Analyze Full Email Text?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Yes"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Build a Social Graph?",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Yes"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": false,
+          "respondWithOptions": {
+            "values": {
+              "formSubmittedText": "Thank you, you will receive a summary via Telegram in a moment, once the analysis is ready."
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -1940,
+        300
+      ],
+      "id": "576eeaa3-e75d-4d11-a7e1-42c63c0dd070",
+      "name": "User submits form",
+      "webhookId": "ac3e6297-ea13-4292-8248-fef83626aa7d",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "dnRnDRFSRoubvTh8",
+          "name": "Basic n8n Form Auth"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://infranodus.com/api/v1/graphAndAdvice?doNotSave=true&optimize=summary&includeGraph=false&includeGraphSummary=true",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "aiTopics",
+              "value": "true"
+            },
+            {
+              "name": "requestMode",
+              "value": "graph summary"
+            },
+            {
+              "name": "name",
+              "value": "gmail_n8n_search"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2240,
+        160
+      ],
+      "id": "ba08b8f7-d7eb-4bdc-8dda-ecdc3bc970cc",
+      "name": "InfraNodus AI Summary & Graph Link",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "FPDx6PA5CtzGEIQc",
+          "name": "InfraNodus DeeMeeTree API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Assign Processing Settings').item.json['Build a Social Graph?'] }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    },
+                    "id": "76bf82df-009a-4714-819c-ec9159f39f72"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "social knowledge graph"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "49ca2845-be5b-40ad-b6b4-c2a4e45f4f77",
+                    "leftValue": "={{ $('Assign Processing Settings').item.json['Build a Social Graph?'] }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "empty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text knowledge graph"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1460,
+        260
+      ],
+      "id": "e918f1bc-cc44-4bdc-a2f8-8551efe10e01",
+      "name": "Type of graph to build"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://infranodus.com/api/v1/graphAndStatements?doNotSave=false&includeGraph=false&includeGraphSummary=true&includeStatements=false",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "gmail_n8n_search"
+            },
+            {
+              "name": "statements",
+              "value": "={{ $json.statements }}"
+            },
+            {
+              "name": "contextSettings",
+              "value": "={{{ \"partOfSpeechToProcess\":\"HASHTAGS_AND_WORDS\", \"doubleSquarebracketsProcessing\":\"PROCESS_AS_MENTIONS\"} }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1720,
+        160
+      ],
+      "id": "7afadef7-8277-48cc-a3d9-e8e7e6a8cce1",
+      "name": "InfraNodus Build a Social Knowledge Graph",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "FPDx6PA5CtzGEIQc",
+          "name": "InfraNodus DeeMeeTree API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://infranodus.com/api/v1/graphAndStatements?doNotSave=false&includeGraph=false&includeGraphSummary=true&includeStatements=false",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "gmail_n8n_search"
+            },
+            {
+              "name": "statements",
+              "value": "={{ $json.statements }}"
+            },
+            {
+              "name": "contextSettings",
+              "value": "={{{ \"partOfSpeechToProcess\":\"HASHTAGS_AND_WORDS\", \"doubleSquarebracketsProcessing\":\"EXCLUDE\", \"mentionsProcessing\":\"EXCLUDE\"} }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1720,
+        460
+      ],
+      "id": "23f0eea1-7554-418b-ab3c-4535188b3fd8",
+      "name": "InfraNodus Build a Text Knowledge Graph",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "FPDx6PA5CtzGEIQc",
+          "name": "InfraNodus DeeMeeTree API Key"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1940,
+        720
+      ],
+      "id": "e9035b76-17db-4470-960a-1609db2febed",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"Label Filter\": \"{{ $json[\"Label Filter\"] !== undefined ? $json[\"Label Filter\"] : `CATEGORY_PERSONAL`}}\",\n  \"Email Type Description\": \"{{ $json[\"Email Type Description\"] !== undefined ? $json[\"Email Type Description\"] : `Important personalized emails` }}\",\n  \"Analyze Full Email Text?\": \"{{ $json[\"Analyze Full Email Text?\"] !== undefined ? $json[\"Analyze Full Email Text?\"] : ``}}\",\n  \"Build a Social Graph?\": \"{{ $json[\"Build a Social Graph?\"] !== undefined ? $json[\"Build a Social Graph?\"] : `Yes`}}\",\n  \"Search Criteria\": \"{{ $json[\"Search Criteria\"] !== undefined ? $json[\"Search Criteria\"] :\n  (() => {\n    const yesterday = new Date();\n    yesterday.setDate(yesterday.getDate() - 7);\n    return `after:${yesterday.getFullYear()}/${(yesterday.getMonth() + 1).toString().padStart(2, '0')}/${yesterday.getDate().toString().padStart(2, '0')}`;\n  })()\n}}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1560,
+        540
+      ],
+      "id": "c0b02afa-3158-4eb9-8ce8-ea3ec86f2684",
+      "name": "Assign Processing Settings",
+      "notes": "// script to generate a date \n// minus -1 is the days before\n\n(() => {\n    const yesterday = new Date();\n    yesterday.setDate(yesterday.getDate() - 7);\n    return `after:${yesterday.getFullYear()}/${(yesterday.getMonth() + 1).toString().padStart(2, '0')}/${yesterday.getDate().toString().padStart(2, '0')}`;\n  })()"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 11
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1940,
+        500
+      ],
+      "id": "04b2b643-76ea-4160-8e33-f87c3506a24b",
+      "name": "Schedule Trigger",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## 2. Filter Settings\n\n### 🚨 Specify which emails should be extracted. Default values are provided in the node. \n\nTo increase the speed, we recommend to use the Gmail search operators like \"after:2025/06/01\" or \"keyword\" or \"label:notes\".\n\nDefault values are provided in the node, which are filled in automatically if no details are specified. \n\n[Options](https://support.google.com/mail/answer/7190?hl=en&co=GENIE.Platform%3DAndroid) you can use for filtering:\n\n- search string or date (e.g. \"after:2025/06/01\" or \"business\")\n\n- email labels and categories (e.g. SENT, CATEGORY_PERSONAL, etc)\n\n- use AI query for advanced filtering\n\n- build a social text graph (with sender's emails)\n\n\n",
+        "height": 960,
+        "width": 220
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1620,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "689e058a-3351-480e-93e4-4670f7ca30f1",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## 3. Get Gmail Messages\n\n### Get the emails that satisfy the filter criteria. \n#### 🚨 Specify your Gmail account credentials here\n\nWe recommend using the filters to make the search faster. You can then use the labels to filter the search results. However, you can also use the labels in the search query, like \"label:notes\" to increase the speed in this step. Alternatively, you can set a limit to 50 to 100 and then this node will retrieve the most recent messages. \n\nSome useful labels:\n- SENT (or label:sent in the search query)\n- CATEGORY_PERSONAL (or label:personal in the search query)\n- CATEGORY_PROMOTION (or label:promotion in the search query)\n- ... and your own labels (e.g. \"Business\", \"Urgent\", etc.)\n\nSee our [other workflows](https://n8n.io/creators/infranodus/) to automate email labeling",
+        "height": 960,
+        "width": 600
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1360,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "8d587ef2-312b-4ead-9c2a-861370a31959",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## 4. Analyze Snippets or Full Text?\n\n### Which parts of emails to analyze?\n\nBy default, we're analyzing the snippets provided by Google. However, for detailed and more precise analysis you can also analyze the full text of emails. \n\nIn this case, we need to retrieve the email text using a separate Gmail node.\n",
+        "height": 960,
+        "width": 540
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -660,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "a0f43d57-d9c0-4996-9439-0ca7747ca118",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## 5. Use AI Classifier to Filter Mails?\n\n### You can use the AI to add additional filters. Check the Classify Node for specifics.\n\nIf the Google search parameters or your existing emails are not sufficient, you can use the AI to classify the type of emails you want to analyze. \n\nYou can describe it in the User Submits Form in the Step 1 or in the Assign Processing Settings in the Step 2. \n\nWe prefer to use the Google's Gemini model as it's faster, and we also have to be less concerned about sending the email content to an external model as it's the same company. \n\n🚨  Specify your Gemini API key here (takes 30 seconds to get in the Google's AI studio)",
+        "height": 960,
+        "width": 660
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -60,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "93d681db-740a-4acb-b459-5cdfef589000",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## 6. Formatting Text or Snippets\n\n### We convert the html to text and also format the data to be converted to the [InfraNodus](https://infranodus.com) format, so we can build a nice graph from it.\n\n",
+        "height": 960,
+        "width": 660
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        680,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "0467031e-74d7-416f-9044-3784acb6c598",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "## 7. Building a Knowledge Graph\n\n### We submit the data to build a knowledge graph using [InfraNodus](https://infranodus.com). \n\n### 🚨  Specify the graph name you want to save the data to  in the `name` field of the HTTP InfraNodus node and your [InfraNodus API key](https://infranodus.com/api-access) credentials.\n\nWe have two types of graphs:\n\n- Text Knowledge Graph will visualize the content and the main topics and gaps within\n\n- Social Knowledge Graph will visualize the content as well as the senders so you can see not only the main topics and gaps, but also who actually sent the messages.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n![Standard text graph](https://support.noduslabs.com/hc/article_attachments/20394930508444)",
+        "height": 1340,
+        "width": 540
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1380,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "53172cba-280d-45b9-bd7f-cfd14e4a35b3",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "## 8. Use InfraNodus to generate topical summary and insight questions \n\n### We use the [InfraNodus GraphRAG API](https://infranodus.com/use-case/ai-knowledge-graphs) to generate the topical summary and AI questions\n\n\n### The insight is based on the structural gap identified in the graph — the topics that could be connected but are not yet.\n\n\n### 🚨  Specify the graph name you want to save the data to  in the `name` field of the HTTP InfraNodus node.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n![structural gap](https://infranodus.com/images/front/infranodus-structural-gaps-ideas@2x.jpg)\n\n",
+        "height": 1340,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2140,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "181ff3fa-4ff2-4cdd-bbb3-9b6a60cfb627",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "## 9. Send the insight and the graph link via Telegram\n\n### Get informed via Telegram when the graph is created along with the topical summary and insight question\n\n### 🚨  Creating a bot in Telegram takes 30 seconds: just to to [@botfather](https://t.me/botfather) and type in `newbot` — then use the API key it generates in the credentials\n\n\n",
+        "height": 1340,
+        "width": 300
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2720,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "c3a8ea5b-0a49-4733-8a00-fbe44381120e",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "## Types of knowledge graphs\n\n### Knowledge graphs can show you recurrent patterns and gaps in your data. This can be very useful for understanding complex relations and discovering what you would otherwise have missed.\n\n#### You can build two types of graphs with this template: a text graph that shows the topics only and the social graph that adds the email senders to the graph, so you can see the associations of individuals / companies with the topics you're talking about.\n\n\n| Text Graph |  | Social Graph |\n|------------|--|-------------|\n| ![Left Image](https://support.noduslabs.com/hc/article_attachments/20394930508444)  |  |   ![Right Image](https://support.noduslabs.com/hc/article_attachments/20402112649628) |",
+        "height": 600,
+        "width": 1260,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -660,
+        -880
+      ],
+      "typeVersion": 1,
+      "id": "a1424806-bcbc-4c25-988d-eaf8756f4b1d",
+      "name": "Sticky Note10"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Clean text and organize into statements": {
+      "main": [
+        [
+          {
+            "node": "Type of graph to build",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "InfraNodus Question Generator": {
+      "main": [
+        [
+          {
+            "node": "Send an insight question via Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Classify Emails",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Was label provided?": {
+      "main": [
+        [
+          {
+            "node": "Filter emails by label",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Should analyze snippets?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Should analyze snippets?": {
+      "main": [
+        [
+          {
+            "node": "Should use AI to filter emails further?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Full Message Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Should analyze snippets from filtered emails?": {
+      "main": [
+        [
+          {
+            "node": "Should use AI to filter emails further?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Full Message Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter emails by label": {
+      "main": [
+        [
+          {
+            "node": "Should analyze snippets from filtered emails?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Full Message Content": {
+      "main": [
+        [
+          {
+            "node": "Should use AI to filter emails further?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Should use AI to filter emails further?": {
+      "main": [
+        [
+          {
+            "node": "Message text or snippet present?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Text field present?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message text or snippet present?": {
+      "main": [
+        [
+          {
+            "node": "Classify Emails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify Emails": {
+      "main": [
+        [
+          {
+            "node": "Text field present?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text field present?": {
+      "main": [
+        [
+          {
+            "node": "Aggregate from full email texts",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Aggregate from email snippets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate from full email texts": {
+      "main": [
+        [
+          {
+            "node": "Clean text and organize into statements",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate from email snippets": {
+      "main": [
+        [
+          {
+            "node": "Clean text and organize into statements",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait before generating questions": {
+      "main": [
+        [
+          {
+            "node": "InfraNodus Question Generator",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "InfraNodus AI Summary & Graph Link",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send the graph link and summary via Telegram": {
+      "main": [
+        []
+      ]
+    },
+    "Send an insight question via Telegram": {
+      "main": [
+        []
+      ]
+    },
+    "Get Messages by Search Criteria": {
+      "main": [
+        [
+          {
+            "node": "Was label provided?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "User submits form": {
+      "main": [
+        [
+          {
+            "node": "Assign Processing Settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "InfraNodus AI Summary & Graph Link": {
+      "main": [
+        [
+          {
+            "node": "Send the graph link and summary via Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Type of graph to build": {
+      "main": [
+        [
+          {
+            "node": "InfraNodus Build a Social Knowledge Graph",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "InfraNodus Build a Text Knowledge Graph",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "InfraNodus Build a Social Knowledge Graph": {
+      "main": [
+        [
+          {
+            "node": "Wait before generating questions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "InfraNodus Build a Text Knowledge Graph": {
+      "main": [
+        [
+          {
+            "node": "Wait before generating questions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Assign Processing Settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assign Processing Settings": {
+      "main": [
+        [
+          {
+            "node": "Get Messages by Search Criteria",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Assign Processing Settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6e4ad969-0325-4133-ac37-e059511b3f55",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2a26454b0172ffcb8d70ba77c235b1209f92cd71bf06c79ba609c7173b416d68"
+  },
+  "id": "5nRfJHY8fBNlZgCH",
+  "tags": []
+}
