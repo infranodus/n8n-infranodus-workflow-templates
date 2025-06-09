@@ -13,6 +13,14 @@ Useful n8n templates to be used with [InfraNodus knowledge graphs](https://infra
 
 [x] Automatically Update Your InfraNodus Graph with the Docs from the Google Drive Folder
 
+[x] GraphRAG Voice AI chat with ElevenLabs and InfraNodus Knowledge Graphs as experts
+
+[x] Visual summary and auto-labeling of Gmail emails
+
+[x] Zendesk tickets: visual summary and Slack notifications
+
+[x] Chat with PDF files without the vector store using Graph RAG
+
 [ ] Create a Marketing Report of the USPs, Strengths, and Weaknesses of Your Competition, Analyze the Results with InfraNodus
 
 [ ] Generate a SEO Report for any Market: Keywords, Topical Clusters, and Content Gaps
@@ -28,7 +36,7 @@ Video with a demo of the Chat workflows: [https://www.youtube.com/watch?v=kS0QTU
 
 Check this [YouTube playlist on InfraNodus GraphRAG API applications](https://www.youtube.com/playlist?list=PLZhDuTZwzpWcgWKn2ZKQPPvuFU4hepQc9) to learn more about the different AI workflows that you can use with n8n, Dify, Make.Com, Crew AI, and other tools and agentic frameworks. 
 
-You will need an [InfraNodus account](https://infranodus.com/use-case/ai-knowledge-graphs) and the [InfraNodus API key](https://inranodus.com/api-access] to use the InfraNodus HTTP request nodes in these templates.
+You will need an [InfraNodus account](https://infranodus.com/use-case/ai-knowledge-graphs) and the [InfraNodus API key](https://inranodus.com/api-access) to use the InfraNodus HTTP request nodes in these templates.
 
 ![https://support.noduslabs.com/hc/article_attachments/20174232165916](https://support.noduslabs.com/hc/article_attachments/20174232165916)
 
