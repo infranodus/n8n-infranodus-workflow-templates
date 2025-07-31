@@ -26,6 +26,10 @@ Alternatively, you can also use the templates we published in [n8n workflows](ht
 
 - [Marketing and SEO: Finding Gaps and Studying Competition](marketing-seo/) - These workflows use InfraNodus to study the market and identify content gaps in your competitors' discourse. You can use these gaps to generate business ideas and SEO-optimized content.
 
+  - [Find Content Gaps in URLs List](marketing-seo/find-content-gaps-in-urls-list.json) — Upload a list of URLs, build a knowledge graph, identify the main topics, generate research ideas based on the gaps between them.
+
+  - [Find Content Gaps in URLs List with AI Content Creator Agent](marketing-seo/find-content-gaps-in-urls-list-open-ai-agent.json) — Same as above, but with the content creator agent that generates a blog post draft based on the gaps between the topics.
+
 - [Research & Science](research/) — Study the current discourse in any field and identify the gaps between topical clusters using the knowledge graphs. Use the gaps to generate ideas and bridge the topics in a new way.
 
   - [Find Content Gaps in PDFs](research/content-gaps-research-ideas-pdfs.json) — Upload PDFs, build a knowledge graph, identify the main topics, generate research ideas based on the gaps between them.
@@ -35,6 +39,8 @@ Alternatively, you can also use the templates we published in [n8n workflows](ht
 - [Content Creation](content-creation/) - Generate content ideas for your blog, website, and social media.
 
   - [Generate Content Ideas from PDF Documents using GraphRAG](content-creation/generate-content-ideas-from-pdfs-content-gaps.json) — Upload PDFs, build a knowledge graph, and generate content ideas based on the gaps between the topics.
+
+  - [Optimize Top Performing Content with Firecrawl and Google Analytics](content-creation/optimize-top-performing-content-firecrawl-google-analytics.json) — Use Firecrawl and Google Analytics to detect the main topics and content gaps in your top-performing content and to get inspiration for new publications.
 
 - [Customer Support and Email Analysis](customer-support-email/) — AI workflows to analyze your customer support tickets and email content.
 
