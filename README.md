@@ -24,6 +24,8 @@ Alternatively, you can also use the templates we published in [n8n workflows](ht
 
   - [Web Chat with a Knowledge Graph](graphrag-chatbots-experts/chatbot-ai-experts.json) — Web chat with a panel of experts using the InfraNodus knowledge graph as its knowledge.
 
+  - [Reasoning Expert with Graph RAG Knowledge Ontology](graphrag-chatbots-experts/reasoning-expert-graph-ontology.json) — Use the InfraNodus knowledge graph to set up a reasoning expert with a knowledge ontology that tells your AI agent how to think (not only what to think).
+
 - [Marketing and SEO: Finding Gaps and Studying Competition](marketing-seo/) - These workflows use InfraNodus to study the market and identify content gaps in your competitors' discourse. You can use these gaps to generate business ideas and SEO-optimized content.
 
   - [Find Content Gaps in URLs List](marketing-seo/find-content-gaps-in-urls-list.json) — Upload a list of URLs, build a knowledge graph, identify the main topics, generate research ideas based on the gaps between them.
