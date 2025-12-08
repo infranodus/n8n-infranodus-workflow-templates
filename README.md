@@ -1,11 +1,14 @@
 # n8n Infranodus Workflow Templates
 
-Useful n8n templates to be used with [InfraNodus knowledge graphs](https://infranodus.com) for portable GraphRAG integrated into your LLM workflows.
+Useful [n8n](https://n8n.partnerlinks.io/n8n-github) workflow templates to be used with [InfraNodus knowledge graphs](https://infranodus.com) for portable GraphRAG integrated into your LLM workflows.
+
+You can use them with custom HTTP nodes that query the InfraNodus API directly or with our new official [InfraNodus n8n nodes](https://n8n.partnerlinks.io/infranodus-n8n-node). We provide both HTTP and InfraNodus node options in these workflows for your convenience.
 
 ## Installation Instructions
 
 - Choose the template based on your use case,
 - Download the JSON file,
+- Create a new workflow in n8n
 - Import the JSON file into your n8n workflow
 - Provide your InfraNodus API key in InfraNodus GraphRAG nodes
 - The API key can be obtained at [https://infranodus.com/api-access](https://infranodus.com/api-access) if you have an account. You can send empty requests to try out the workflows.
@@ -14,7 +17,7 @@ Alternatively, you can also use the templates we published in [n8n workflows](ht
 
 ## Use Cases
 
-- [Chatbot Experts](graphrag-chatbots-experts/) — Use InfraNodus knowledge graphs and our GraphRAG to create chatbots with a panel of experts. Each graph is an expert on a certain topic. Check out the example on [Circadian Press](https://circadian.co/shop/) website where every book has an AI chatbot that answers questions based on the book's content. You can also see the custom Zendesk AI chatbot in action on our support portal [support.noduslabs.com](https://support.noduslabs.com).
+[Chatbot Experts](graphrag-chatbots-experts/) — Use InfraNodus knowledge graphs and our GraphRAG to create chatbots with a panel of experts. Each graph is an expert on a certain topic. Check out the example on [Circadian Press](https://circadian.co/shop/) website where every book has an AI chatbot that answers questions based on the book's content. You can also see the custom Zendesk AI chatbot in action on our support portal [support.noduslabs.com](https://support.noduslabs.com).
 
 You can also use our custom [n8n chatbot widget tool](https://n8n-chat-widget.com) to create a customized embeddable / popup chatbot widget and add it to your website, blog, or Zendesk portal. It can also be accessed via a URL.
 
@@ -30,33 +33,33 @@ You can also use our custom [n8n chatbot widget tool](https://n8n-chat-widget.co
 
 - [Reasoning Expert with Graph RAG Knowledge Ontology](graphrag-chatbots-experts/reasoning-expert-graph-ontology.json) — Use the InfraNodus knowledge graph to set up a reasoning expert with a knowledge ontology that tells your AI agent how to think (not only what to think).
 
-- [Marketing and SEO: Finding Gaps and Studying Competition](marketing-seo/) - These workflows use InfraNodus to study the market and identify content gaps in your competitors' discourse. You can use these gaps to generate business ideas and SEO-optimized content.
+[Marketing and SEO: Finding Gaps and Studying Competition](marketing-seo/) - These workflows use InfraNodus to study the market and identify content gaps in your competitors' discourse. You can use these gaps to generate business ideas and SEO-optimized content.
 
-  - [Find Content Gaps in URLs List](marketing-seo/find-content-gaps-in-urls-list.json) — Upload a list of URLs, build a knowledge graph, identify the main topics, generate research ideas based on the gaps between them.
+- [Find Content Gaps in URLs List](marketing-seo/find-content-gaps-in-urls-list.json) — Upload a list of URLs, build a knowledge graph, identify the main topics, generate research ideas based on the gaps between them.
 
-  - [Find Content Gaps in URLs List with AI Content Creator Agent](marketing-seo/find-content-gaps-in-urls-list-open-ai-agent.json) — Same as above, but with the content creator agent that generates a blog post draft based on the gaps between the topics.
+- [Find Content Gaps in URLs List with AI Content Creator Agent](marketing-seo/find-content-gaps-in-urls-list-open-ai-agent.json) — Same as above, but with the content creator agent that generates a blog post draft based on the gaps between the topics.
 
-- [Research & Science](research/) — Study the current discourse in any field and identify the gaps between topical clusters using the knowledge graphs. Use the gaps to generate ideas and bridge the topics in a new way.
+[Research & Science](research/) — Study the current discourse in any field and identify the gaps between topical clusters using the knowledge graphs. Use the gaps to generate ideas and bridge the topics in a new way.
 
-  - [Find Content Gaps in PDFs](research/content-gaps-research-ideas-pdfs.json) — Upload PDFs, build a knowledge graph, identify the main topics, generate research ideas based on the gaps between them.
+- [Find Content Gaps in PDFs](research/content-gaps-research-ideas-pdfs.json) — Upload PDFs, build a knowledge graph, identify the main topics, generate research ideas based on the gaps between them.
 
-  - [Generate AI Prompts from PDFs](research/generate-ai-prompts-research-questions-pdfs.json) — Upload PDFs, build a knowledge graph, and generate AI prompts based on the gaps between the topics. Use it in your LLM workflows or for idea generation.
+- [Generate AI Prompts from PDFs](research/generate-ai-prompts-research-questions-pdfs.json) — Upload PDFs, build a knowledge graph, and generate AI prompts based on the gaps between the topics. Use it in your LLM workflows or for idea generation.
 
-- [Content Creation](content-creation/) - Generate content ideas for your blog, website, and social media.
+[Content Creation](content-creation/) - Generate content ideas for your blog, website, and social media.
 
-  - [Generate Content Ideas from PDF Documents using GraphRAG](content-creation/generate-content-ideas-from-pdfs-content-gaps.json) — Upload PDFs, build a knowledge graph, and generate content ideas based on the gaps between the topics.
+- [Generate Content Ideas from PDF Documents using GraphRAG](content-creation/generate-content-ideas-from-pdfs-content-gaps.json) — Upload PDFs, build a knowledge graph, and generate content ideas based on the gaps between the topics.
 
-  - [Optimize Top Performing Content with Firecrawl and Google Analytics](content-creation/optimize-top-performing-content-firecrawl-google-analytics.json) — Use Firecrawl and Google Analytics to detect the main topics and content gaps in your top-performing content and to get inspiration for new publications.
+- [Optimize Top Performing Content with Firecrawl and Google Analytics](content-creation/optimize-top-performing-content-firecrawl-google-analytics.json) — Use Firecrawl and Google Analytics to detect the main topics and content gaps in your top-performing content and to get inspiration for new publications.
 
-- [Customer Support and Email Analysis](customer-support-email/) — AI workflows to analyze your customer support tickets and email content.
+[Customer Support and Email Analysis](customer-support-email/) — AI workflows to analyze your customer support tickets and email content.
 
-  - [Zendesk AI Chatbot Agent](customer-support-email/zendesk-ai-chatbot-agent.json) — An easy to set up custom AI chatbot for your Zendesk knowledge portal. Works much better than the native Zendesk one and is cheaper, too. Learn more and see it in action on our [support portal](https://support.noduslabs.com/hc/en-us/articles/24080152180252-Building-an-Embeddable-AI-Chat-for-Zendesk-Knowledge-Support-Portal)
+- [Zendesk AI Chatbot Agent](customer-support-email/zendesk-ai-chatbot-agent.json) — An easy to set up custom AI chatbot for your Zendesk knowledge portal. Works much better than the native Zendesk one and is cheaper, too. Learn more and see it in action on our [support portal](https://support.noduslabs.com/hc/en-us/articles/24080152180252-Building-an-Embeddable-AI-Chat-for-Zendesk-Knowledge-Support-Portal)
 
-  - [Zendesk Visual Summary and Slack Notifications](customer-support-email/zendesk-visual-summary-slack-notifications.json) — Daily visual summary of the main topics in your Zendesk tickets - notified via Slack.
+- [Zendesk Visual Summary and Slack Notifications](customer-support-email/zendesk-visual-summary-slack-notifications.json) — Daily visual summary of the main topics in your Zendesk tickets - notified via Slack.
 
-  - [Gmail Visual Summary and Auto-Labeling](customer-support-email/gmail-label-emails-knowledge-graph.json) — Visual summary and auto-labeling of Gmail emails.
+- [Gmail Visual Summary and Auto-Labeling](customer-support-email/gmail-label-emails-knowledge-graph.json) — Visual summary and auto-labeling of Gmail emails.
 
-  - [Gmail Summarize Knowledge Graph](customer-support-email/gmail-summarize-knowledge-graph.json) — Generate a knowledge graph from your Gmail emails and summarize the main topics. Receive the notification via Telegram or Email.
+- [Gmail Summarize Knowledge Graph](customer-support-email/gmail-summarize-knowledge-graph.json) — Generate a knowledge graph from your Gmail emails and summarize the main topics. Receive the notification via Telegram or Email.
 
 - [Automated File Processing](file-upload-sync/) — Automatically sync the files from your Google Drive or Dropbox to your InfraNodus account.
 
@@ -77,3 +80,7 @@ Check this [YouTube playlist on InfraNodus GraphRAG API applications](https://ww
 You will need an [InfraNodus account](https://infranodus.com/use-case/ai-knowledge-graphs) and the [InfraNodus API key](https://inranodus.com/api-access) to use the InfraNodus HTTP request nodes in these templates.
 
 ![https://support.noduslabs.com/hc/article_attachments/20174232165916](https://support.noduslabs.com/hc/article_attachments/20174232165916)
+
+## License
+
+All the workflows are MIT license. You can use them for free without restrictions for personal and commercial purposes.
