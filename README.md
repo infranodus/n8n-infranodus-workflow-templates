@@ -17,7 +17,9 @@ Alternatively, you can also use the templates we published in [n8n workflows](ht
 
 ## Use Cases
 
-[Chatbot Experts](graphrag-chatbots-experts/) — Use InfraNodus knowledge graphs and our GraphRAG to create chatbots with a panel of experts. Each graph is an expert on a certain topic. Check out the example on [Circadian Press](https://circadian.co/shop/) website where every book has an AI chatbot that answers questions based on the book's content. You can also see the custom Zendesk AI chatbot in action on our support portal [support.noduslabs.com](https://support.noduslabs.com).
+### [Chatbot Experts](graphrag-chatbots-experts/)
+
+Use InfraNodus knowledge graphs and our GraphRAG to create chatbots with a panel of experts. Each graph is an expert on a certain topic. Check out the example on [Circadian Press](https://circadian.co/shop/) website where every book has an AI chatbot that answers questions based on the book's content. You can also see the custom Zendesk AI chatbot in action on our support portal [support.noduslabs.com](https://support.noduslabs.com).
 
 You can also use our custom [n8n chatbot widget tool](https://n8n-chat-widget.com) to create a customized embeddable / popup chatbot widget and add it to your website, blog, or Zendesk portal. It can also be accessed via a URL.
 
@@ -33,7 +35,9 @@ You can also use our custom [n8n chatbot widget tool](https://n8n-chat-widget.co
 
 - [Reasoning Expert with Graph RAG Knowledge Ontology](graphrag-chatbots-experts/reasoning-expert-graph-ontology.json) — Use the InfraNodus knowledge graph to set up a reasoning expert with a knowledge ontology that tells your AI agent how to think (not only what to think).
 
-[Marketing and SEO: Finding Gaps and Studying Competition](marketing-seo/) - These workflows use InfraNodus to study the market and identify content gaps in your competitors' discourse. You can use these gaps to generate business ideas and SEO-optimized content.
+### [Marketing and SEO: Finding Gaps and Studying Competition](marketing-seo/)
+
+These workflows use InfraNodus to study the market and identify content gaps in your competitors' discourse. You can use these gaps to generate business ideas and SEO-optimized content.
 
 - [Find Content Gaps in URLs List](marketing-seo/find-content-gaps-in-urls-list.json) — Upload a list of URLs, build a knowledge graph, identify the main topics, generate research ideas based on the gaps between them.
 
@@ -45,13 +49,17 @@ You can also use our custom [n8n chatbot widget tool](https://n8n-chat-widget.co
 
 - [Generate AI Prompts from PDFs](research/generate-ai-prompts-research-questions-pdfs.json) — Upload PDFs, build a knowledge graph, and generate AI prompts based on the gaps between the topics. Use it in your LLM workflows or for idea generation.
 
-[Content Creation](content-creation/) - Generate content ideas for your blog, website, and social media.
+### [Content Creation](content-creation/)
+
+Generate content ideas for your blog, website, and social media.
 
 - [Generate Content Ideas from PDF Documents using GraphRAG](content-creation/generate-content-ideas-from-pdfs-content-gaps.json) — Upload PDFs, build a knowledge graph, and generate content ideas based on the gaps between the topics.
 
 - [Optimize Top Performing Content with Firecrawl and Google Analytics](content-creation/optimize-top-performing-content-firecrawl-google-analytics.json) — Use Firecrawl and Google Analytics to detect the main topics and content gaps in your top-performing content and to get inspiration for new publications.
 
-[Customer Support and Email Analysis](customer-support-email/) — AI workflows to analyze your customer support tickets and email content.
+### [Customer Support and Email Analysis](customer-support-email/)
+
+AI workflows to analyze your customer support tickets and email content.
 
 - [Zendesk AI Chatbot Agent](customer-support-email/zendesk-ai-chatbot-agent.json) — An easy to set up custom AI chatbot for your Zendesk knowledge portal. Works much better than the native Zendesk one and is cheaper, too. Learn more and see it in action on our [support portal](https://support.noduslabs.com/hc/en-us/articles/24080152180252-Building-an-Embeddable-AI-Chat-for-Zendesk-Knowledge-Support-Portal)
 
