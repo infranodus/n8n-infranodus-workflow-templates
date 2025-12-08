@@ -14,15 +14,17 @@ Alternatively, you can also use the templates we published in [n8n workflows](ht
 
 ## Use Cases
 
-- [Chatbot Experts](graphrag-chatbots-experts/) — Use InfraNodus knowledge graphs and our GraphRAG to create chatbots with a panel of experts. Each graph is an expert on a certain topic. Check out the example on [Circadian Press](https://circadian.co/shop/) website where every book has an AI chatbot that answers questions based on the book's content.
+- [Chatbot Experts](graphrag-chatbots-experts/) — Use InfraNodus knowledge graphs and our GraphRAG to create chatbots with a panel of experts. Each graph is an expert on a certain topic. Check out the example on [Circadian Press](https://circadian.co/shop/) website where every book has an AI chatbot that answers questions based on the book's content. You can also see the custom Zendesk AI chatbot in action on our support portal [support.noduslabs.com](https://support.noduslabs.com)
 
-  - [Voice Chat with a Knowledge Graph and ElevenLabs](graphrag-chatbots-experts/chatbot-voice-ai-knowledge-graphs.json) — Voice chat with a panel of experts using InfraNodus as an knowledge agent for your ElevenLabs voice chatbot.
+  - [Zendesk AI Chatbot Agent](customer-support-email/zendesk-ai-chatbot-agent.json) — An easy to set up custom AI chatbot for your Zendesk knowledge portal. Works much better than the native Zendesk one and is cheaper, too. Learn more and see it in action on our [support portal](https://support.noduslabs.com/hc/en-us/articles/24080152180252-Building-an-Embeddable-AI-Chat-for-Zendesk-Knowledge-Support-Portal)
 
   - [Telegram Chat with a Knowledge Graph](graphrag-chatbots-experts/telegram-ai-experts.json) — Telegram chat with a panel of experts using the InfraNodus knowledge graph as its knowledge.
 
   - [Chat to PDFs with no Vector Store](graphrag-chatbots-experts/graphrag-pdf-chat-no-vector-store.json) — Use the InfraNodus knowledge graph to set up a chatbot with PDFs without complex vector store setup. Just plug and play.
 
   - [Web Chat with a Knowledge Graph](graphrag-chatbots-experts/chatbot-ai-experts.json) — Web chat with a panel of experts using the InfraNodus knowledge graph as its knowledge.
+
+  - [Voice Chat with a Knowledge Graph and ElevenLabs](graphrag-chatbots-experts/chatbot-voice-ai-knowledge-graphs.json) — Voice chat with a panel of experts using InfraNodus as an knowledge agent for your ElevenLabs voice chatbot.
 
   - [Reasoning Expert with Graph RAG Knowledge Ontology](graphrag-chatbots-experts/reasoning-expert-graph-ontology.json) — Use the InfraNodus knowledge graph to set up a reasoning expert with a knowledge ontology that tells your AI agent how to think (not only what to think).
 
@@ -45,6 +47,8 @@ Alternatively, you can also use the templates we published in [n8n workflows](ht
   - [Optimize Top Performing Content with Firecrawl and Google Analytics](content-creation/optimize-top-performing-content-firecrawl-google-analytics.json) — Use Firecrawl and Google Analytics to detect the main topics and content gaps in your top-performing content and to get inspiration for new publications.
 
 - [Customer Support and Email Analysis](customer-support-email/) — AI workflows to analyze your customer support tickets and email content.
+
+  - [Zendesk AI Chatbot Agent](customer-support-email/zendesk-ai-chatbot-agent.json) — An easy to set up custom AI chatbot for your Zendesk knowledge portal. Works much better than the native Zendesk one and is cheaper, too. Learn more and see it in action on our [support portal](https://support.noduslabs.com/hc/en-us/articles/24080152180252-Building-an-Embeddable-AI-Chat-for-Zendesk-Knowledge-Support-Portal)
 
   - [Zendesk Visual Summary and Slack Notifications](customer-support-email/zendesk-visual-summary-slack-notifications.json) — Daily visual summary of the main topics in your Zendesk tickets - notified via Slack.
 
