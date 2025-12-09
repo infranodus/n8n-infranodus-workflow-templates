@@ -25,6 +25,8 @@ You can also use our custom [n8n chatbot widget tool](https://n8n-chat-widget.co
 
 - [Zendesk AI Chatbot Agent](customer-support-email/zendesk-ai-chatbot-agent.json) — An easy to set up custom AI chatbot for your Zendesk knowledge portal. Works much better than the native Zendesk one and is cheaper, too. Learn more and see it in action on our [support portal](https://support.noduslabs.com/hc/en-us/articles/24080152180252-Building-an-Embeddable-AI-Chat-for-Zendesk-Knowledge-Support-Portal)
 
+- [Basic AI Chatbot Based on GraphRAG](graphrag-chatbots-experts/graphrag-basic-ai-chatbot.json) — This is a basic AI chatbot demo where the request goes directly into the InfraNodus graph via the Get response (Expert) InfraNodus node and the answer is provided back to the user.
+
 - [Telegram Chat with a Knowledge Graph](graphrag-chatbots-experts/telegram-ai-experts.json) — Telegram chat with a panel of experts using the InfraNodus knowledge graph as its knowledge.
 
 - [Chat to PDFs with no Vector Store](graphrag-chatbots-experts/graphrag-pdf-chat-no-vector-store.json) — Use the InfraNodus knowledge graph to set up a chatbot with PDFs without complex vector store setup. Just plug and play.

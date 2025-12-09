@@ -1,0 +1,171 @@
+{
+  "name": "Basic AI Chatbot using GraphRAG",
+  "nodes": [
+    {
+      "parameters": {
+        "name": "infranodus_support",
+        "prompt": "={{ $json.chatInput }}",
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-infranodus.infranodus",
+      "typeVersion": 1,
+      "position": [
+        -16,
+        -32
+      ],
+      "id": "27560407-0866-44b2-9605-3841fc0c85d7",
+      "name": "Get a response from knowledge base",
+      "credentials": {
+        "infranodusApi": {
+          "id": "oyWOY5wcgNq7pxzK",
+          "name": "InfraNodus API / user expert"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## 1. AI Chat Trigger\n\nUse the n8n built-in chat or replace this node with a Webhook node and expose to your users via the embeddable [n8n Chat Widget](https://n8n-chat-widget.com). ",
+        "height": 416,
+        "width": 256
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -448,
+        -256
+      ],
+      "typeVersion": 1,
+      "id": "b85b7a9a-1ca1-4890-9b71-14b3b27400ed",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## 2. Query the Knowledge Base\n\nUse the [InfraNodus GraphRAG node](https://n8n.io/integrations/infranodus-graph-rag/) to generate an answer to your query. No additional model connection necessary. \n\nRead more about [GraphRAG](https://infranodus.com/docs/graph-rag-knowledge-graph)\n",
+        "height": 416,
+        "width": 288
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -112,
+        -256
+      ],
+      "typeVersion": 1,
+      "id": "19ef0e02-4d95-442e-b271-8fa35c4e80a2",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "What would you like to know?",
+        "options": {
+          "responseMode": "responseNodes"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -352,
+        -32
+      ],
+      "id": "170242b2-c5ba-4963-9b2a-87855bb625b9",
+      "name": "When chat message received",
+      "webhookId": "476f256c-2350-4e93-8535-3e993508c2fe"
+    },
+    {
+      "parameters": {
+        "message": "={{ $json.aiAdvice[0].text }}",
+        "waitUserReply": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        336,
+        -32
+      ],
+      "id": "665b35c5-2c21-402b-8e96-bd6be2147707",
+      "name": "Respond to Chat"
+    },
+    {
+      "parameters": {
+        "content": "## 3. Show response to the user\n\nThe response obtained using InfraNodus GraphRAG is then shown to the user.\n",
+        "height": 416,
+        "width": 288
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        240,
+        -256
+      ],
+      "typeVersion": 1,
+      "id": "d268d3e7-6377-4dcc-9857-5d5285518947",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Get a response from knowledge base",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a response from knowledge base": {
+      "main": [
+        [
+          {
+            "node": "Respond to Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a398e659-766f-4d26-8714-388bd05e6a94",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "2a26454b0172ffcb8d70ba77c235b1209f92cd71bf06c79ba609c7173b416d68"
+  },
+  "id": "QUwG4gOKIZKXJt3C",
+  "tags": [
+    {
+      "createdAt": "2025-05-20T13:16:15.636Z",
+      "updatedAt": "2025-05-20T13:16:15.636Z",
+      "id": "sJk9cUvmMU8FkJXv",
+      "name": "AI"
+    },
+    {
+      "createdAt": "2025-05-21T17:06:32.355Z",
+      "updatedAt": "2025-05-21T17:06:32.355Z",
+      "id": "66wgFoDi9Xjl74M3",
+      "name": "Support"
+    },
+    {
+      "createdAt": "2025-05-20T14:53:17.515Z",
+      "updatedAt": "2025-05-20T14:53:17.515Z",
+      "id": "ciIq4giMNXaJiyiQ",
+      "name": "Thinking Tools"
+    },
+    {
+      "createdAt": "2025-05-21T19:44:19.136Z",
+      "updatedAt": "2025-05-21T19:44:19.136Z",
+      "id": "kRM0hQV2zw7VxrON",
+      "name": "Research"
+    },
+    {
+      "createdAt": "2025-06-04T10:29:27.533Z",
+      "updatedAt": "2025-06-04T10:29:27.533Z",
+      "id": "E52i6BJ7Ht6yF3OB",
+      "name": "Productivity"
+    }
+  ]
+}
