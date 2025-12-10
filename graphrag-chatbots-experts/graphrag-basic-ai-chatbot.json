@@ -33,7 +33,7 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.3,
       "position": [
-        -352,
+        -368,
         -32
       ],
       "id": "170242b2-c5ba-4963-9b2a-87855bb625b9",
@@ -64,7 +64,7 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -352,
+        -368,
         176
       ],
       "id": "b3450782-cf52-4166-9a41-c2175dbe3cc9",
@@ -132,6 +132,22 @@
       "typeVersion": 1,
       "id": "b85b7a9a-1ca1-4890-9b71-14b3b27400ed",
       "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Basic AI Chatbot Tutorial\n\n- No vector store needed\n- Uses GraphRAG and custom ontology for responses\n\n### Learn how to set up a simple AI chatbot without vector store and complex AI agent setups in this [support article](https://support.noduslabs.com/hc/en-us/articles/24079266183196-Building-Expert-Ontology-for-InfraNodus-GraphRAG-n8n-Expert-Node) and this video tutorial: \n\n[![Video tutorial](https://img.youtube.com/vi/qP4KTLBzoWQ/sddefault.jpg)](https://www.youtube.com/watch?v=qP4KTLBzoWQ)",
+        "height": 624,
+        "width": 624,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1120,
+        -256
+      ],
+      "typeVersion": 1,
+      "id": "cc846e41-2088-4c48-9657-a8eb2019f185",
+      "name": "Sticky Note3"
     }
   ],
   "pinData": {},
@@ -179,7 +195,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "59ff26e2-9229-497f-89d2-4c41325e096f",
+  "versionId": "71c40b3b-f30b-41b1-a987-4e58e5963b84",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "2a26454b0172ffcb8d70ba77c235b1209f92cd71bf06c79ba609c7173b416d68"
